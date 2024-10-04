@@ -54,7 +54,9 @@ const ProfileScreen = ({ navigation }) => {
         >
           <Text style={styles.buttonText}>Update Account</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonLogout}>
+        <TouchableOpacity style={styles.buttonLogout}
+        onPress={() => navigation.navigate('Login')}
+        >
           <Text style={styles.buttonText}>Log Out</Text>
         </TouchableOpacity>
       </LinearGradient>
