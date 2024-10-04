@@ -7,18 +7,18 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'; // Cre
 import Icon from 'react-native-vector-icons/Ionicons'; // Icons for the bottom tab navigation
 
 // Import all screens for the app navigation
-import ReportScreen from '../screens/ReportScreen';
-import GenerateReportScreen from '../screens/GenerateReportScreen';
-import GenerateReportFilterScreen from '../screens/GenerateReportFilterScreen';
-import GenerateReportAlertScreen from '../screens/GenerateReportAlertScreen';
-import ReportViewScreen from '../screens/ReportViewScreen';
+import ReportScreen from '../screens/Report/ReportScreen';
+import GenerateReportScreen from '../screens/Report/GenerateReportScreen';
+import GenerateReportFilterScreen from '../screens/Report/GenerateReportFilterScreen';
+import GenerateReportAlertScreen from '../screens/Report/GenerateReportAlertScreen';
+import ReportViewScreen from '../screens/Report/ReportViewScreen';
 import AppointmentScreen from '../screens/Appointment/AppointmentScreen';                 
 import DoctorSearchResultsScreen from '../screens/Appointment/DoctorSearchResultsScreen';   
 import DoctorDetailScreen from '../screens/Appointment/DoctorDetailScreen';                 
 import HospitalSearchResultsScreen from '../screens/Appointment/HospitalSearchResultsScreen'; 
 import HospitalDetailScreen from '../screens/Appointment/HospitalDetailScreen';             
 import AppointmentConfirmationScreen from '../screens/Appointment/AppointmentConfirmationScreen';
-import Home from '../screens/Home';
+import Home from '../screens/Report/Home';
 // Import patient-related screens
 import LoginScreen from '../screens/Patient/LoginScreen';
 import SignUpScreen from '../screens/Patient/SignUpScreen';
