@@ -57,6 +57,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, ImageBackground, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { LinearGradient } from 'expo-linear-gradient';
+import Logo from '../../assets/hospitallogo.webp';
 
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState('');
@@ -64,26 +65,16 @@ const LoginScreen = ({ navigation }) => {
   const [selectedRole, setSelectedRole] = useState('user'); // default selection
 
   const handleLogin = () => {
-    if (selectedRole === 'doctor') {
-      // Navigate to Doctor's Home Screen
-      navigation.navigate('DoctorHome');
-    } else {
-      // Navigate to User's Home Screen
-      navigation.navigate('Main');
-    }
+    // Navigate to Main screen and pass the selectedRole
+    navigation.navigate('Main', { role: selectedRole });
   };
 
   return (
-    <ImageBackground 
-      source={{ uri: 'https://example.com/background.png' }} // Replace with actual image URI
-      style={styles.background}
-    >
-      <LinearGradient
-        colors={['#FFDD44', '#FFCC00']}
-        style={styles.container}
-      >
-        <Text style={styles.title}>MEDICAL</Text>
+    <ImageBackground source={Logo} style={styles.background}>
+      <LinearGradient colors={['#FFDD44', '#FFCC00']} style={styles.container}>
+        <Text style={styles.title}>MEDICORE</Text>
 
+        {/* Role Selection */}
         <View style={styles.radioContainer}>
           <TouchableOpacity style={styles.radioOption} onPress={() => setSelectedRole('user')}>
             <View style={[styles.radioCircle, selectedRole === 'user' && styles.selectedRadio]} />
@@ -96,6 +87,7 @@ const LoginScreen = ({ navigation }) => {
           </TouchableOpacity>
         </View>
 
+        {/* Username Input */}
         <View style={styles.inputContainer}>
           <Icon name="person" size={24} color="#000" />
           <TextInput
@@ -106,6 +98,7 @@ const LoginScreen = ({ navigation }) => {
           />
         </View>
 
+        {/* Password Input */}
         <View style={styles.inputContainer}>
           <Icon name="lock" size={24} color="#000" />
           <TextInput
@@ -117,10 +110,12 @@ const LoginScreen = ({ navigation }) => {
           />
         </View>
 
+        {/* Login Button */}
         <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
           <Text style={styles.loginButtonText}>Sign In</Text>
         </TouchableOpacity>
 
+        {/* Sign Up Link */}
         <Text style={styles.signUpText} onPress={() => navigation.navigate('SignUp')}>
           Don't have an account? <Text style={styles.signUpLink}>Sign Up</Text>
         </Text>
@@ -147,13 +142,13 @@ const styles = StyleSheet.create({
   },
   radioContainer: {
     flexDirection: 'row',
-    justifyContent: 'center', // Center the radio buttons
+    justifyContent: 'center',
     marginBottom: 20,
   },
   radioOption: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginHorizontal: 15, // Horizontal spacing between buttons
+    marginHorizontal: 15,
   },
   radioCircle: {
     height: 20,
@@ -190,7 +185,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   loginButton: {
-    backgroundColor: '#FFCC00',
+    backgroundColor: '#ffa200',
     paddingVertical: 15,
     borderRadius: 10,
     marginTop: 20,

@@ -1,36 +1,6 @@
-// import React from 'react';
-// import { View, Text, Button, FlatList } from 'react-native';
-
-// const patientData = [
-//   { id: '001211G', name: 'Rohan Dasun', date: '2023-07-24' },
-//   { id: '001216F', name: 'Chamara', date: '2023-07-24' },
-//   { id: '001219G', name: 'Daniel', date: '2023-09-30' },
-// ];
-
-// const GenerateReportScreen = ({ navigation }) => {
-//   return (
-//     <View style={{ padding: 20 }}>
-//       <Text>Generate Report</Text>
-//       <FlatList
-//         data={patientData}
-//         keyExtractor={(item) => item.id}
-//         renderItem={({ item }) => (
-//           <View style={{ marginBottom: 20 }}>
-//             <Text>{`Patient: ${item.name}`}</Text>
-//             <Text>{`ID: ${item.id}`}</Text>
-//             <Text>{`Date: ${item.date}`}</Text>
-//           </View>
-//         )}
-//       />
-//       <Button title="Generate Report" onPress={() => navigation.navigate('GenerateReportFilter')} />
-//     </View>
-//   );
-// };
-
-// export default GenerateReportScreen;
-
 import React, { useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, Button } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const patientData = [
   { id: '001211G', name: 'Rohan Dasun', date: '2023-07-24', doctor: 'Dr. Rajiv Nirmal' },
@@ -72,66 +42,87 @@ const GenerateReportScreen = ({ navigation }) => {
   );
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Generate Report</Text>
+    <SafeAreaView style={styles.safeArea}>
+      <LinearGradient
+        colors={['#005596', '#ffff']}
+        style={styles.gradient}
+      >
+        <View style={styles.container}>
+          <Text style={styles.title}>Generate Report</Text>
 
-      <FlatList
-        data={currentItems}
-        keyExtractor={(item) => item.id}
-        renderItem={renderPatientItem}
-        contentContainerStyle={styles.list}
-      />
+          <FlatList
+            data={currentItems}
+            keyExtractor={(item) => item.id}
+            renderItem={renderPatientItem}
+            contentContainerStyle={styles.list}
+          />
 
-      {/* Pagination Controls */}
-      <View style={styles.pagination}>
-        <TouchableOpacity
-          disabled={currentPage === 1}
-          onPress={() => handlePageChange(currentPage - 1)}
-        >
-          <Text style={currentPage === 1 ? styles.disabled : styles.pageButton}>«</Text>
-        </TouchableOpacity>
-        {[...Array(totalPages)].map((_, index) => (
-          <TouchableOpacity
-            key={index}
-            onPress={() => handlePageChange(index + 1)}
-          >
-            <Text style={currentPage === index + 1 ? styles.pageButtonActive : styles.pageButton}>
-              {index + 1}
-            </Text>
-          </TouchableOpacity>
-        ))}
-        <TouchableOpacity
-          disabled={currentPage === totalPages}
-          onPress={() => handlePageChange(currentPage + 1)}
-        >
-          <Text style={currentPage === totalPages ? styles.disabled : styles.pageButton}>»</Text>
-        </TouchableOpacity>
-      </View>
+          {/* Pagination Controls */}
+          <View style={styles.pagination}>
+            <TouchableOpacity
+              disabled={currentPage === 1}
+              onPress={() => handlePageChange(currentPage - 1)}
+            >
+              <Text style={currentPage === 1 ? styles.disabled : styles.pageButton}>«</Text>
+            </TouchableOpacity>
+            {[...Array(totalPages)].map((_, index) => (
+              <TouchableOpacity
+                key={index}
+                onPress={() => handlePageChange(index + 1)}
+              >
+                <Text style={currentPage === index + 1 ? styles.pageButtonActive : styles.pageButton}>
+                  {index + 1}
+                </Text>
+              </TouchableOpacity>
+            ))}
+            <TouchableOpacity
+              disabled={currentPage === totalPages}
+              onPress={() => handlePageChange(currentPage + 1)}
+            >
+              <Text style={currentPage === totalPages ? styles.disabled : styles.pageButton}>»</Text>
+            </TouchableOpacity>
+          </View>
 
-      {/* Action Buttons */}
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.actionButton}  onPress={() => navigation.navigate('GenerateReportFilter')} >
-          <Text style={styles.buttonText}>Generate Report</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.actionButton} onPress={() => console.log('Edit Entry')}>
-          <Text style={styles.buttonText}>Edit Entry</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+          {/* Action Buttons */}
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              style={styles.actionButton}
+              onPress={() => navigation.navigate('GenerateReportFilter')}
+            >
+              <View style={styles.buttonSolid}>
+                <Text style={styles.buttonText}>Generate Report</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.actionButton} onPress={() => console.log('Edit Entry')}>
+              <View style={styles.buttonSolid}>
+                <Text style={styles.buttonText}>Edit Entry</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </LinearGradient>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+  },
+  gradient: {
+    flex: 1,
+  },
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#fff',
+    paddingBottom: 100, // Add extra padding at the bottom
   },
   title: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: 'bold',
     marginBottom: 20,
     textAlign: 'center',
+    color: '#333',
   },
   list: {
     paddingBottom: 20,
@@ -139,23 +130,31 @@ const styles = StyleSheet.create({
   patientItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    backgroundColor: '#ccc',
+    backgroundColor: '#fff',
     padding: 15,
     borderRadius: 10,
     marginBottom: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 3,  // For Android shadow
   },
   patientName: {
     fontSize: 16,
     fontWeight: 'bold',
+    color: '#333',
   },
   patientId: {
     fontSize: 14,
     fontWeight: 'bold',
     marginTop: 5,
+    color: '#555',
   },
   doctorText: {
     fontSize: 12,
     marginTop: 3,
+    color: '#666',
   },
   dateContainer: {
     justifyContent: 'center',
@@ -166,6 +165,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#888',
     padding: 5,
     borderRadius: 5,
+    textAlign: 'center',
   },
   pagination: {
     flexDirection: 'row',
@@ -177,6 +177,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     fontSize: 18,
     color: '#000',
+    padding: 5,
   },
   pageButtonActive: {
     marginHorizontal: 5,
@@ -191,21 +192,35 @@ const styles = StyleSheet.create({
     color: '#ccc',
     marginHorizontal: 5,
     fontSize: 18,
+    padding: 5,
   },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginTop: 20,
+    marginBottom: 20, // Add margin at the bottom
   },
   actionButton: {
-    backgroundColor: '#333',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
+    flex: 1,
+    marginHorizontal: 10,
+    borderRadius: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    elevation: 3, // Shadow for Android
+  },
+  buttonSolid: {
+    backgroundColor: '#005596',
+    borderRadius: 8,
+    paddingVertical: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   buttonText: {
     color: '#fff',
     fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 

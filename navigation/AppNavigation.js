@@ -1,10 +1,9 @@
-
 import React from 'react';
 import { SafeAreaView, Platform, StatusBar, StyleSheet } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native'; // Provides navigation context for the app
-import { createStackNavigator } from '@react-navigation/stack'; // Creates stack-based navigation
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'; // Creates bottom tab-based navigation
-import Icon from 'react-native-vector-icons/Ionicons'; // Icons for the bottom tab navigation
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 // Import all screens for the app navigation
 import ReportScreen from '../screens/Report/ReportScreen';
@@ -12,11 +11,11 @@ import GenerateReportScreen from '../screens/Report/GenerateReportScreen';
 import GenerateReportFilterScreen from '../screens/Report/GenerateReportFilterScreen';
 import GenerateReportAlertScreen from '../screens/Report/GenerateReportAlertScreen';
 import ReportViewScreen from '../screens/Report/ReportViewScreen';
-import AppointmentScreen from '../screens/Appointment/AppointmentScreen';                 
-import DoctorSearchResultsScreen from '../screens/Appointment/DoctorSearchResultsScreen';   
-import DoctorDetailScreen from '../screens/Appointment/DoctorDetailScreen';                 
-import HospitalSearchResultsScreen from '../screens/Appointment/HospitalSearchResultsScreen'; 
-import HospitalDetailScreen from '../screens/Appointment/HospitalDetailScreen';             
+import AppointmentScreen from '../screens/Appointment/AppointmentScreen';
+import DoctorSearchResultsScreen from '../screens/Appointment/DoctorSearchResultsScreen';
+import DoctorDetailScreen from '../screens/Appointment/DoctorDetailScreen';
+import HospitalSearchResultsScreen from '../screens/Appointment/HospitalSearchResultsScreen';
+import HospitalDetailScreen from '../screens/Appointment/HospitalDetailScreen';
 import AppointmentConfirmationScreen from '../screens/Appointment/AppointmentConfirmationScreen';
 import Home from '../screens/Report/Home';
 // Import patient-related screens
@@ -27,8 +26,6 @@ import AppointmentHistoryScreen from '../screens/Patient/AppointmentHistoryScree
 import MedicalHistoryScreen from '../screens/Patient/MedicalHistoryScreen';
 import UpdateAccountScreen from '../screens/Patient/UpdateAccountScreen';
 
-
-
 // Create Stack Navigator and Bottom Tab Navigator instances
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -36,7 +33,7 @@ const Tab = createBottomTabNavigator();
 // Stack Navigator for the authentication flow (Login, SignUp)
 const AuthStack = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false  }}>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="SignUp" component={SignUpScreen} />
     </Stack.Navigator>
@@ -65,73 +62,81 @@ const StackNavigator = () => {
   );
 };
 
-
 const TabNavigator = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarIcon: ({ color, size }) => {
+        headerShown: false, // Remove headers for all tab screens
+        tabBarIcon: ({ focused, size }) => {
           let iconName;
 
           // Assign different icons based on the route name
           if (route.name === 'Home') {
             iconName = 'home-outline';
           } else if (route.name === 'Appointment') {
-            iconName = 'calendar-outline'; // Icon for Appointment Screen
+            iconName = 'calendar-outline';
           } else if (route.name === 'Report') {
-            iconName = 'document-text-outline'; // Icon for Report Screen
+            iconName = 'document-text-outline';
           } else if (route.name === 'Profile') {
             iconName = 'person-outline';
           }
 
           // Return the corresponding icon component
-          return <Icon name={iconName} size={size} color={color} />;
+          return <Icon name={iconName} size={size} color="black" />;
         },
-        tabBarActiveTintColor: '#397b9c',
-        tabBarInactiveTintColor: 'gray',
+        tabBarActiveTintColor: 'black',
+        tabBarInactiveTintColor: 'rgba(0, 0, 0, 0.6)',
         tabBarStyle: {
-          paddingVertical: 5,
-          height: 60,
-         
+          backgroundColor: '#005596',
+          height: 60, // Increased height
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          elevation: 0,
+          borderTopWidth: 0,
+        },
+        tabBarItemStyle: {
+          paddingBottom: 10,
+          paddingTop: 10,
         },
       })}
     >
-      {/* Existing screens */}
       <Tab.Screen name="Home" component={StackNavigator} />
-
-      {/* New Appointment and Report Screens with icons */}
       <Tab.Screen name="Appointment" component={AppointmentScreen} />
       <Tab.Screen name="Report" component={ReportScreen} />
-
-      {/* Profile Screen */}
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );
 };
 
-
-// Main App Navigation with conditional navigation
+// Modified AppNavigation component
 const AppNavigation = () => {
+  React.useEffect(() => {
+    if (Platform.OS === 'android') {
+      StatusBar.setBackgroundColor('#005596');
+      StatusBar.setBarStyle('dark-content');
+    }
+  }, []);
+
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <NavigationContainer>
+    <NavigationContainer>
+      <StatusBar backgroundColor="#005596" barStyle="dark-content" />
+      <SafeAreaView style={styles.safeArea}>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          {/* Auth Stack: for screens without the bottom tab (like login/signup) */}
-         
           <Stack.Screen name="Auth" component={AuthStack} />
-          {/* Main Tab Navigator with bottom tabs */}
           <Stack.Screen name="Main" component={TabNavigator} />
         </Stack.Navigator>
-      </NavigationContainer>
-    </SafeAreaView>
+      </SafeAreaView>
+    </NavigationContainer>
   );
 };
 
-// Styling for Safe Area
+// Updated styles
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: '#005596', // Changed to yellow to match your tab bar color
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
 });

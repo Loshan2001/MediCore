@@ -1,16 +1,20 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, SafeAreaView, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { LinearGradient } from 'expo-linear-gradient';  // Gradient background
 
 const { width, height } = Dimensions.get('window');
 
 const HomeScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.content}>
+      <LinearGradient
+        colors={['#005596', '#ffff']}  // Gradient background for whole screen
+        style={styles.content}
+      >
         {/* Header Section */}
         <View style={styles.header}>
-          <Icon name="notifications" size={24} color="#000" />
+          <Icon name="notifications" size={24} color="#333" />
         </View>
 
         {/* Enlarged Profile Card */}
@@ -20,7 +24,7 @@ const HomeScreen = ({ navigation }) => {
             <Image
               style={styles.profileImage}
               source={{
-                uri: 'https://static.vecteezy.com/system/resources/thumbnails/024/585/326/small_2x/3d-happy-cartoon-doctor-cartoon-doctor-on-transparent-background-generative-ai-png.png', // Replace with actual image URI
+                uri: 'https://static.vecteezy.com/system/resources/thumbnails/024/585/326/small_2x/3d-happy-cartoon-doctor-cartoon-doctor-on-transparent-background-generative-ai-png.png',
               }}
             />
             <View style={styles.profileInfo}>
@@ -36,48 +40,25 @@ const HomeScreen = ({ navigation }) => {
         {/* Action Buttons */}
         <View style={styles.actionsContainer}>
           <TouchableOpacity style={styles.actionButton}>
-            <Icon name="person-search" size={24} color="#000" />
-            <Text>Duty</Text>
+            <Icon name="person-search" size={24} color="#fff" />
+            <Text style={styles.actionText}>Duty</Text>
           </TouchableOpacity>
           <TouchableOpacity 
             style={styles.actionButton} 
             onPress={() => navigation.navigate('GenerateReport')}
           >
-            <Icon name="assignment" size={24} color="#000" />
-            <Text>Generate Report</Text>
+            <Icon name="assignment" size={24} color="#fff" />
+            <Text style={styles.actionText}>Generate Report</Text>
           </TouchableOpacity>
           <TouchableOpacity 
             style={styles.actionButton} 
             onPress={() => console.log('Availability')}
           >
-            <Icon name="event-available" size={24} color="#000" />
-            <Text>Availability</Text>
+            <Icon name="event-available" size={24} color="#fff" />
+            <Text style={styles.actionText}>Availability</Text>
           </TouchableOpacity>
         </View>
-      </View>
-
-      {/* Bottom Navigation */}
-      {/* <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navButton}>
-          <Icon name="home" size={24} color="#000" />
-          <Text>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton}>
-          <Icon name="history" size={24} color="#000" />
-          <Text>History</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton}>
-          <Icon name="settings" size={24} color="#000" />
-          <Text>Settings</Text>
-        </TouchableOpacity>
-        <TouchableOpacity 
-          style={styles.navButton} 
-          onPress={() => console.log('Logout')}
-        >
-          <Icon name="logout" size={24} color="#000" />
-          <Text>Logout</Text>
-        </TouchableOpacity>
-      </View> */}
+      </LinearGradient>
     </SafeAreaView>
   );
 };
@@ -95,19 +76,27 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
     marginBottom: 20,
+    marginTop: 10,
   },
   profileCard: {
-    backgroundColor: '#E0E0E0',
+    backgroundColor: '#fff',
     padding: 20,
-    borderRadius: 10,
+    borderRadius: 20,
     marginBottom: 20,
-    height: height * 0.4, // Adjust this value to make the card larger or smaller
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 5,  // For Android shadow
+    height: height * 0.4, // Adjust the height
     justifyContent: 'space-between',
   },
   welcomeText: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
+    color: '#333',
     marginBottom: 15,
+    textAlign: 'center', // Center align the welcome text
   },
   profileContainer: {
     flexDirection: 'row',
@@ -118,19 +107,25 @@ const styles = StyleSheet.create({
     width: width * 0.25,
     height: width * 0.25,
     borderRadius: (width * 0.25) / 2,
+    borderWidth: 2,
+    borderColor: '#005596', // Add border around profile image
     marginRight: 20,
   },
   profileInfo: {
     flex: 1,
   },
   title: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: 'bold',
+    color: '#005596',
     marginBottom: 10,
+    textAlign: 'left',  // Ensure text is left-aligned
   },
   infoText: {
     fontSize: 16,
     marginBottom: 5,
+    color: '#555',
+    textAlign: 'left',  // Ensure info text is left-aligned
   },
   actionsContainer: {
     flexDirection: 'row',
@@ -139,21 +134,21 @@ const styles = StyleSheet.create({
   },
   actionButton: {
     alignItems: 'center',
-    padding: 10,
-    backgroundColor: '#E0E0E0',
-    borderRadius: 10,
-    width: width * 0.25,
+    padding: 15,
+    backgroundColor: '#005596',  // Orange color for buttons
+    borderRadius: 15,
+    width: width * 0.28,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    elevation: 3,  // Android shadow
   },
-  bottomNav: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    padding: 10,
-    backgroundColor: '#F0F0F0',
-    borderTopWidth: 1,
-    borderTopColor: '#E0E0E0',
-  },
-  navButton: {
-    alignItems: 'center',
+  actionText: {
+    marginTop: 8,
+    color: '#fff',
+    fontWeight: 'bold',
+    textAlign: 'center',  // Center the text inside the button
   },
 });
 

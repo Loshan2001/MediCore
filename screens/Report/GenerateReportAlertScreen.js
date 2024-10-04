@@ -1,14 +1,17 @@
 import React from 'react';
-import { View, Text, Button, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient'; // Import LinearGradient
 
 const GenerateReportAlertScreen = ({ navigation }) => {
   return (
-    <View style={styles.container}>
+    <LinearGradient
+      colors={['#005596', '#ffff']} // Gradient background
+      style={styles.container}
+    >
       {/* Success Icon with Text */}
       <View style={styles.reportContainer}>
-        {/* You can use an image for the green checkmark icon */}
         <Image
-        //   source={require('./assets/success-icon.png')} // Add the green checkmark icon image to assets
+           source={ {uri: 'https://www.freeiconspng.com/thumbs/report-icon/report-icon-20.png'}} // Add your success icon here
           style={styles.icon}
         />
         <Text style={styles.successText}>Report Generated Successfully</Text>
@@ -30,7 +33,7 @@ const GenerateReportAlertScreen = ({ navigation }) => {
           <Text style={styles.buttonText}>Back to Home</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </LinearGradient>
   );
 };
 
@@ -40,47 +43,56 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
-    backgroundColor: '#F8F8F8', // Light grey background color
   },
   reportContainer: {
     alignItems: 'center',
-    backgroundColor: '#E0E0E0', // Grey background for the report container
+    backgroundColor: '#FFFFFF', // White background for contrast
     padding: 20,
     borderRadius: 10,
     marginBottom: 40,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
   icon: {
-    width: 50,
-    height: 50,
+    width: 70, // Increased size for better visibility
+    height: 100,
     marginBottom: 10,
   },
   successText: {
-    fontSize: 18,
-    color: '#4CAF50', // Green color for success text
-    fontWeight: '600',
+    fontSize: 20, // Slightly larger font size
+    color: '#005596', // Green color for success text
+    fontWeight: 'bold', // Bold text for emphasis
   },
   buttonContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around', // Adjust space evenly between buttons
     width: '100%',
     paddingHorizontal: 40,
   },
   viewReportButton: {
-    backgroundColor: '#424242', // Dark grey for the "View Report" button
+    backgroundColor: '#005596', // Button color
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 8,
-    marginRight: 20,
+    width: '45%', // Adjust width to allow both buttons to fit
   },
   backToHomeButton: {
-    backgroundColor: '#E0E0E0', // Light grey for "Back to Home" button
+    backgroundColor: '#424242', // Dark grey for "Back to Home" button
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 8,
+    width: '45%', // Same width as the other button
   },
   buttonText: {
     color: '#FFF', // White text color
     fontWeight: '600',
+    textAlign: 'center', // Center align text
   },
 });
 
