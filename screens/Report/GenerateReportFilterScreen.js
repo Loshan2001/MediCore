@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 15,
-    color: '#333',
+    color: '#fff',
   },
   dropdownButton: {
     borderColor: '#007BFF',

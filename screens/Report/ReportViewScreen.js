@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     fontSize: 24, // Larger font size
     fontWeight: 'bold',
     marginBottom: 20,
-    color: '#424242', // Dark grey color for contrast
+    color: '#fff', // Dark grey color for contrast
   },
   reportImage: {
     width: '100%', // Make the image responsive

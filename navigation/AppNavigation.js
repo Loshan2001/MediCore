@@ -82,10 +82,10 @@ const TabNavigator = () => {
           }
 
           // Return the corresponding icon component
-          return <Icon name={iconName} size={size} color="black" />;
+          return <Icon name={iconName} size={size} color="white" />;
         },
-        tabBarActiveTintColor: 'black',
-        tabBarInactiveTintColor: 'rgba(0, 0, 0, 0.6)',
+        tabBarActiveTintColor: 'white',
+        tabBarInactiveTintColor: 'white',
         tabBarStyle: {
           backgroundColor: '#005596',
           height: 60, // Increased height
@@ -97,7 +97,7 @@ const TabNavigator = () => {
           borderTopWidth: 0,
         },
         tabBarItemStyle: {
-          paddingBottom: 10,
+          paddingBottom: 9,
           paddingTop: 10,
         },
       })}
@@ -121,7 +121,7 @@ const AppNavigation = () => {
 
   return (
     <NavigationContainer>
-      <StatusBar backgroundColor="#005596" barStyle="dark-content" />
+      <StatusBar backgroundColor="#005596" barStyle="light-content" /> 
       <SafeAreaView style={styles.safeArea}>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Auth" component={AuthStack} />
