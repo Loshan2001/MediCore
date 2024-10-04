@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; // For vector icons
+import { LinearGradient } from 'expo-linear-gradient'; // For gradient backgrounds
 
 const AppointmentScreen = ({ navigation }) => {
   const [doctorName, setDoctorName] = useState('Dr. Sanjeewa Garusinghe');
@@ -9,99 +10,132 @@ const AppointmentScreen = ({ navigation }) => {
   const [date, setDate] = useState('');
 
   const searchAppointment = () => {
-    // Navigate to Doctor Search Results
     navigation.navigate('DoctorSearchResults');
   };
 
   const searchHospital = () => {
-    // Navigate to HospitalDetailScreen
     navigation.navigate('HospitalDetail');
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Book an Appointment</Text>
+    <SafeAreaView style={styles.safeArea}>
+      <LinearGradient
+        // colors={['#004e92', '#000428']}// Darker, richer gradient background
+        colors={['#005596', '#ffff']}   
+        style={styles.gradientBackground}
+      >
+        <View style={styles.container}>
+          <Text style={styles.title}>Book an Appointment</Text>
 
-      <TextInput
-        placeholder="Doctor Name"
-        style={styles.input}
-        value={doctorName}
-        onChangeText={setDoctorName}
-        placeholderTextColor="#999"
-      />
+          <TextInput
+            placeholder="Doctor Name"
+            style={styles.input}
+            value={doctorName}
+            onChangeText={setDoctorName}
+            placeholderTextColor="#ddd"
+          />
 
-      <TextInput
-        placeholder="Hospital Name"
-        style={styles.input}
-        value={hospitalName}
-        onChangeText={setHospitalName}
-        placeholderTextColor="#999"
-      />
+          <TextInput
+            placeholder="Hospital Name"
+            style={styles.input}
+            value={hospitalName}
+            onChangeText={setHospitalName}
+            placeholderTextColor="#ddd"
+          />
 
-      <TextInput
-        placeholder="Specialization"
-        style={styles.input}
-        value={specialization}
-        onChangeText={setSpecialization}
-        placeholderTextColor="#999"
-      />
+          <TextInput
+            placeholder="Specialization"
+            style={styles.input}
+            value={specialization}
+            onChangeText={setSpecialization}
+            placeholderTextColor="#ddd"
+          />
 
-      <TextInput
-        placeholder="Pick Date"
-        style={styles.input}
-        value={date}
-        onChangeText={setDate}
-        placeholderTextColor="#999"
-      />
+          <TextInput
+            placeholder="Pick Date"
+            style={styles.input}
+            value={date}
+            onChangeText={setDate}
+            placeholderTextColor="#ddd"
+          />
 
-      {/* Search Button for Doctor */}
-      <TouchableOpacity style={styles.searchButton} onPress={searchAppointment}>
-        <Text style={styles.searchButtonText}>Search</Text>
-        <Ionicons name="search" size={18} color="#fff" style={styles.searchIcon} />
-      </TouchableOpacity> 
+          {/* Search Button for Doctor */}
+          <TouchableOpacity
+            style={styles.searchButton}
+            onPress={searchAppointment}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.searchButtonText}>Search</Text>
+            <Ionicons name="search" size={20} color="#fff" style={styles.searchIcon} />
+          </TouchableOpacity> 
 
-      {/* Search Button for Hospital */}
-      <View style={{ marginTop: 10 }} />
-      <TouchableOpacity style={styles.searchButton} onPress={searchHospital}>
-        <Text style={styles.searchButtonText}>Search Hospital</Text>
-        <Ionicons name="search" size={18} color="#fff" style={styles.searchIcon} />
-      </TouchableOpacity>
-    </View>
+          {/* Search Button for Hospital */}
+          <TouchableOpacity
+            style={[styles.searchButton, { marginTop: 10 }]}
+            onPress={searchHospital}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.searchButtonText}>Search Hospital</Text>
+            <Ionicons name="search" size={20} color="#fff" style={styles.searchIcon} />
+          </TouchableOpacity>
+        </View>
+      </LinearGradient>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#004e92', // Backup color for the gradient
+  },
+  gradientBackground: {
+    flex: 1,
+    justifyContent: 'center',
+  },
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: '#fff',
+    padding: 25,
+    justifyContent: 'center',
   },
   title: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
     marginBottom: 30,
-    color: '#333',
+    color: '#fff',
     textAlign: 'center',
   },
   input: {
     borderWidth: 1,
-    borderColor: '#999',
-    borderRadius: 10,
-    padding: 12,
+    borderColor: '#ddd',
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    borderRadius: 20,
+    padding: 15,
     marginBottom: 20,
-    color: '#333',
+    color: '#fff',
     fontSize: 16,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5, // Adds shadow on Android
   },
   searchButton: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#0a718d',
+    backgroundColor: '#005596',
     paddingVertical: 15,
-    borderRadius: 10,
+    borderRadius: 25,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5, // Shadow for Android
+    transform: [{ scale: 1.0 }],
   },
   searchButtonText: {
-    fontSize: 16,
+    fontSize: 18,
     color: '#fff',
     marginRight: 10,
   },

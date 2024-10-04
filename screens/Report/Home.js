@@ -19,32 +19,32 @@ const Home = () => {
       {/* Main Grid */}
       <View style={styles.gridContainer}>
         <TouchableOpacity style={styles.gridItem}>
-          <Icon name="favorite" size={40} color="#00cc66" />
+          <Icon name="favorite" size={40} color="#005596" />
           <Text style={styles.gridText}>Health Tools</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.gridItem}>
-          <Icon name="coronavirus" size={40} color="#00cc66" />
+          <Icon name="coronavirus" size={40} color="#005596" />
           <Text style={styles.gridText}>COVID-19</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.gridItem}>
-          <Icon name="scanner" size={40} color="#00cc66" />
+          <Icon name="scanner" size={40} color="#005596" />
           <Text style={styles.gridText}>MRI/CT Scan</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.gridItem}>
-          <Icon name="local-hospital" size={40} color="#00cc66" />
+          <Icon name="local-hospital" size={40} color="#005596" />
           <Text style={styles.gridText}>Laboratories</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.gridItem}>
-          <Icon name="person-search" size={40} color="#00cc66" />
+          <Icon name="person-search" size={40} color="#005596" />
           <Text style={styles.gridText}>Channelling</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.gridItem}>
-          <Icon name="person" size={40} color="#00cc66" />
+          <Icon name="person" size={40} color="#005596" />
           <Text style={styles.gridText}>My Doctors</Text>
         </TouchableOpacity>
       </View>
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   emergencyButton: {
-    backgroundColor: '#FFCC00',
+    backgroundColor: '#005596',
     padding: 15,
     flexDirection: 'row',
     justifyContent: 'center',
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   hotlineButton: {
-    backgroundColor: '#00CC66',
+    backgroundColor: '#005590',
     padding: 15,
     flexDirection: 'row',
     alignItems: 'center',

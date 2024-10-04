@@ -1,72 +1,69 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons'; // For back, calendar, and clock icons
+import { View, Text, StyleSheet, Image, TouchableOpacity, SafeAreaView } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const DoctorDetailScreen = ({ route, navigation }) => {
   const { doctor } = route.params;
 
   const confirmAppointment = () => {
-    // Navigate to AppointmentConfirmationScreen
     navigation.navigate('AppointmentConfirmation', { doctor });
   };
 
   return (
-    <View style={styles.container}>
-      {/* Header with back button and icons */}
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon name="arrow-back" size={24} color="#000" />
+    <SafeAreaView style={styles.safeArea}>
+      <LinearGradient
+        colors={['#005596', '#ffffff']} // Gradient background
+        style={styles.gradientBackground}
+      >
+        {/* Header with back button and icons */}
+        <View style={styles.header}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Icon name="arrow-back" size={24} color="#fff" />
+          </TouchableOpacity>
+          <Text style={styles.title}>{doctor.name}</Text>
+          <Icon name="notifications-outline" size={24} color="#fff" />
+        </View>
+
+        {/* Doctor's profile image */}
+        <Image source={{ uri: 'https://www.freeiconspng.com/uploads/doctors-transparent-icon-10.png' }} style={styles.image} />
+
+        {/* Doctor's details */}
+        <Text style={styles.name}>{doctor.name}</Text>
+        <Text style={styles.specialization}>{doctor.specialization}</Text>
+        <Text style={styles.activeAppointments}>Active Appointments: {doctor.activeAppointments}</Text>
+
+        {/* Appointment Details */}
+        <View style={styles.infoBox}>
+          <View style={styles.infoRow}>
+            <Icon name="calendar-outline" size={18} color="#333" />
+            <Text style={styles.infoText}>20 August 2024</Text>
+          </View>
+          <View style={styles.infoRow}>
+            <Icon name="location-outline" size={18} color="#333" />
+            <Text style={styles.infoText}>Hemas Wattala</Text>
+          </View>
+          <View style={styles.infoRow}>
+            <Icon name="time-outline" size={18} color="#333" />
+            <Text style={styles.infoText}>2.00pm - 4.00pm</Text>
+          </View>
+        </View>
+
+        {/* Confirm Appointment Button */}
+        <TouchableOpacity style={styles.confirmButton} onPress={confirmAppointment}>
+          <Text style={styles.confirmButtonText}>Confirm Appointment</Text>
         </TouchableOpacity>
-        <Text style={styles.title}>{doctor.name}</Text>
-        <Icon name="notifications-outline" size={24} color="#000" />
-      </View>
-
-      {/* Doctor's profile image */}
-      <Image source={{ uri: doctor.image }} style={styles.image} />
-
-      {/* Doctor's details */}
-      <Text style={styles.name}>{doctor.name}</Text>
-      <Text style={styles.specialization}>{doctor.specialization}</Text>
-      <Text style={styles.activeAppointments}>Active Appointments: {doctor.activeAppointments}</Text>
-
-      {/* Appointment Details */}
-      <View style={styles.infoBox}>
-        <View style={styles.infoRow}>
-          <Icon name="calendar-outline" size={18} color="#333" />
-          <Text style={styles.infoText}>20 August 2024</Text>
-        </View>
-        <View style={styles.infoRow}>
-          <Icon name="location-outline" size={18} color="#333" />
-          <Text style={styles.infoText}>Hemas Wattala</Text>
-        </View>
-        <View style={styles.infoRow}>
-          <Icon name="time-outline" size={18} color="#333" />
-          <Text style={styles.infoText}>2.00pm - 4.00pm</Text>
-        </View>
-      </View>
-
-      {/* Confirm Appointment Button */}
-      <TouchableOpacity style={styles.confirmButton} onPress={confirmAppointment}>
-        <Text style={styles.confirmButtonText}>Confirm Appointment</Text>
-      </TouchableOpacity>
-
-      {/* Bottom Tab Placeholder */}
-      {/* <View style={styles.bottomTab}>
-        <Icon name="home-outline" size={28} color="#333" />
-        <TouchableOpacity style={styles.addButton}>
-          <Icon name="add-outline" size={28} color="#fff" />
-        </TouchableOpacity>
-        <Icon name="bookmark-outline" size={28} color="#333" />
-        <Icon name="person-outline" size={28} color="#333" />
-      </View> */}
-    </View>
+      </LinearGradient>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
-    backgroundColor: '#fff',
+  },
+  gradientBackground: {
+    flex: 1,
     padding: 20,
   },
   header: {
@@ -76,8 +73,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   title: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
+    color: '#fff',
   },
   image: {
     width: 120,
@@ -85,29 +83,37 @@ const styles = StyleSheet.create({
     borderRadius: 60,
     alignSelf: 'center',
     marginBottom: 20,
+    borderWidth: 2,
+    borderColor: '#fff',
   },
   name: {
     fontSize: 22,
     fontWeight: 'bold',
     textAlign: 'center',
+    color: '#333',
   },
   specialization: {
     fontSize: 16,
-    color: '#777',
+    color: '#fff',
     textAlign: 'center',
     marginBottom: 10,
   },
   activeAppointments: {
     fontSize: 14,
-    color: 'green',
+    color: '#005596',
     textAlign: 'center',
     marginBottom: 20,
   },
   infoBox: {
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#fff',
     padding: 15,
-    borderRadius: 8,
+    borderRadius: 12,
     marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 5,
   },
   infoRow: {
     flexDirection: 'row',
@@ -120,32 +126,15 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   confirmButton: {
-    backgroundColor: '#fff',
-    borderColor: '#333',
-    borderWidth: 1,
-    borderRadius: 8,
-    paddingVertical: 12,
+    backgroundColor: '#005596',
+    paddingVertical: 15,
+    borderRadius: 10,
     alignItems: 'center',
+    marginTop: 20,
   },
   confirmButtonText: {
-    fontSize: 16,
-    color: '#333',
-  },
-  bottomTab: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    paddingVertical: 10,
-    backgroundColor: '#f5f5f5',
-  },
-  addButton: {
-    backgroundColor: '#397b9c',
-    padding: 10,
-    borderRadius: 50,
+    fontSize: 18,
+    color: '#fff',
   },
 });
 

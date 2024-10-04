@@ -1,8 +1,7 @@
-
-// export default HospitalDetailScreen;
 import React from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { LinearGradient } from 'expo-linear-gradient'; // For gradient backgrounds
 
 const hospitals = [
   {
@@ -38,45 +37,49 @@ const HospitalDetailScreen = () => {
       <View style={styles.cityContainer}>
         <Text style={styles.cityText}>{item.city}</Text>
         <TouchableOpacity
-  style={styles.viewButton}
-  onPress={() => navigation.navigate('HospitalSearchResults', { hospital: item })}
->
-  <Text style={styles.viewButtonText}>View</Text>
-</TouchableOpacity>
-
+          style={styles.viewButton}
+          onPress={() => navigation.navigate('HospitalSearchResults', { hospital: item })}
+        >
+          <Text style={styles.viewButtonText}>View</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Search Results (Hospital)</Text>
-      <FlatList
-        data={hospitals}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-      />
-      <View style={styles.paginationContainer}>
-        <Text style={styles.pageNumber}>1</Text>
-        <Text style={styles.pageNumber}>2</Text>
-        <Text style={styles.pageNumber}>3</Text>
-      </View>
-    </View>
+    <SafeAreaView style={styles.safeArea}>
+      <LinearGradient colors={['#005596', '#ffffff']} style={styles.gradientBackground}>
+        <Text style={styles.header}>Search Results (Hospital)</Text>
+        <FlatList
+          data={hospitals}
+          renderItem={renderItem}
+          keyExtractor={item => item.id}
+          contentContainerStyle={styles.listContent} // Adding padding to the FlatList
+        />
+        <View style={styles.paginationContainer}>
+          <Text style={styles.pageNumber}>1</Text>
+          <Text style={styles.pageNumber}>2</Text>
+          <Text style={styles.pageNumber}>3</Text>
+        </View>
+      </LinearGradient>
+    </SafeAreaView>
   );
 };
 
-
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
+    flex: 1,
+  },
+  gradientBackground: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#fff',
   },
   header: {
     fontSize: 22,
     fontWeight: 'bold',
     marginBottom: 20,
     textAlign: 'center',
+    color: '#fff', // Set text color to match the gradient
   },
   card: {
     flexDirection: 'row',
@@ -122,14 +125,14 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   viewButton: {
-    borderColor: '#28a745',
+    borderColor: '#005596',
     borderWidth: 2,
     borderRadius: 20,
     paddingVertical: 5,
     paddingHorizontal: 10,
   },
   viewButtonText: {
-    color: '#28a745',
+    color: '#005596',
     fontSize: 14,
     fontWeight: 'bold',
   },
@@ -141,6 +144,10 @@ const styles = StyleSheet.create({
   pageNumber: {
     fontSize: 18,
     paddingHorizontal: 10,
+    backgroundColor: '#3333', // Optional background color for pagination
+    borderRadius: 5,
+    marginHorizontal: 5,
+    paddingVertical: 5,
   },
 });
 

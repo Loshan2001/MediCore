@@ -1,68 +1,101 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, SafeAreaView } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient'; // Gradient background support
 import { useNavigation } from '@react-navigation/native';
 
 const HospitalSearchResultsScreen = ({ route }) => {
-  const { hospital } = route.params;  // Extract passed hospital data
-  const navigation = useNavigation();  // Use navigation to move between screens
+  const { hospital } = route.params;
+  const navigation = useNavigation();
 
   return (
-    <View style={styles.container}>
-      <Image source={{ uri: hospital.imageUrl }} style={styles.hospitalImage} />
-      <Text style={styles.hospitalName}>{hospital.name}</Text>
-      <Text style={styles.hospitalLocation}>{hospital.location}</Text>
-      <Text style={styles.hospitalPhone}>📞 {hospital.phone}</Text>
-      <Text style={styles.hospitalCity}>City: {hospital.city}</Text>
-
-      {/* "Book" Button */}
-      <TouchableOpacity
-        style={styles.bookButton}
-        onPress={() => navigation.navigate('AppointmentConfirmation', { hospital })}
+    <SafeAreaView style={styles.safeArea}>
+      <LinearGradient
+        colors={['#005596', '#ffffff']} // Gradient background from blue to white
+        style={styles.container}
       >
-        <Text style={styles.bookButtonText}>Book Appointment</Text>
-      </TouchableOpacity>
-    </View>
+        {/* Hospital Image */}
+        <View style={styles.imageContainer}>
+          <Image source={{ uri: 'https://png.pngtree.com/png-vector/20240119/ourmid/pngtree-city-hospital-elements-png-image_11420665.png' }} style={styles.hospitalImage} />
+        </View>
+
+        {/* Hospital Info */}
+        <Text style={styles.hospitalName}>{hospital.name}</Text>
+        <Text style={styles.hospitalLocation}>📍 {hospital.location}</Text>
+        <Text style={styles.hospitalPhone}>📞 {hospital.phone}</Text>
+        <Text style={styles.hospitalCity}>City: {hospital.city}</Text>
+
+        {/* "Book" Button */}
+        <TouchableOpacity
+          style={styles.bookButton}
+          onPress={() => navigation.navigate('AppointmentConfirmation', { hospital })}
+        >
+          <Text style={styles.bookButtonText}>Book Appointment</Text>
+        </TouchableOpacity>
+      </LinearGradient>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+  },
   container: {
     flex: 1,
-    alignItems: 'center',
     padding: 20,
-    backgroundColor: '#fff',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  imageContainer: {
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    marginBottom: 20,
+    borderRadius: 15,
+    overflow: 'hidden',
   },
   hospitalImage: {
-    width: 200,
-    height: 200,
-    borderRadius: 10,
-    marginBottom: 20,
+    width: 220,
+    height: 220,
+    borderRadius: 15,
   },
   hospitalName: {
-    fontSize: 24,
+    fontSize: 26,
     fontWeight: 'bold',
+    color: '#333',
+    textAlign: 'center',
     marginBottom: 10,
   },
   hospitalLocation: {
-    fontSize: 16,
+    fontSize: 18,
     color: '#555',
+    textAlign: 'center',
     marginBottom: 5,
   },
   hospitalPhone: {
     fontSize: 16,
     color: '#555',
+    textAlign: 'center',
   },
   hospitalCity: {
     fontSize: 18,
-    marginTop: 20,
     fontWeight: 'bold',
+    marginTop: 20,
+    color: '#333',
   },
   bookButton: {
     marginTop: 30,
-    backgroundColor: '#28a745',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
+    backgroundColor: '#005596',
+    paddingVertical: 12,
+    paddingHorizontal: 30,
+    borderRadius: 10,
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
   },
   bookButtonText: {
     color: '#fff',

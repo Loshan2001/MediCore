@@ -1,6 +1,6 @@
-// src/screens/DoctorSearchResultsScreen.js
 import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet, SafeAreaView } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import DoctorCard from '../../components/DoctorCard';
 
 const DoctorSearchResultsScreen = ({ navigation }) => {
@@ -20,27 +20,38 @@ const DoctorSearchResultsScreen = ({ navigation }) => {
   ];
 
   const handleDoctorSelect = (doctor) => {
-    // Navigate to DoctorDetailScreen and pass the selected doctor
     navigation.navigate('DoctorDetail', { doctor });
   };
 
   return (
-    <ScrollView style={styles.container}>
-      {doctors.map((doctor, index) => (
-        <DoctorCard 
-          key={index} 
-          doctor={doctor} 
-          onPress={() => handleDoctorSelect(doctor)} 
-        />
-      ))}
-    </ScrollView>
+    <SafeAreaView style={styles.safeArea}>
+      <LinearGradient
+        colors={['#005596', '#ffff']}  // Gradient background
+        style={styles.gradientBackground}
+      >
+        <ScrollView contentContainerStyle={styles.scrollContent}>
+          {doctors.map((doctor, index) => (
+            <DoctorCard 
+              key={index} 
+              doctor={doctor} 
+              onPress={() => handleDoctorSelect(doctor)} 
+            />
+          ))}
+        </ScrollView>
+      </LinearGradient>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
+    flex: 1,
+  },
+  gradientBackground: {
+    flex: 1,
+  },
+  scrollContent: {
     padding: 20,
-    backgroundColor: '#f7f7f7',
   },
 });
 
