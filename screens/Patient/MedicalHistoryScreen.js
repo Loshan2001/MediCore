@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, SafeAreaView } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons'; // Assuming you're using Expo
+import { LinearGradient } from 'expo-linear-gradient';
 
 const medicalHistory = [
   { id: '1', description: 'Body checkup at Hemas Hospital', date: '21 AUG', systolic: '130mmHg', diastolic: '80mmHg' },
@@ -31,21 +32,25 @@ const MedicalHistoryScreen = () => {
   );
 
   return (
-    <View style={styles.container}>
-      <FlatList
-        data={medicalHistory}
-        keyExtractor={(item) => item.id}
-        renderItem={renderMedicalHistory}
-      />
-    </View>
+    <SafeAreaView style={styles.safeArea}>
+      <LinearGradient colors={['#005596', '#ffffff']} style={styles.container}>
+        <FlatList
+          data={medicalHistory}
+          keyExtractor={(item) => item.id}
+          renderItem={renderMedicalHistory}
+        />
+      </LinearGradient>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+  },
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#fff',
   },
   card: {
     backgroundColor: '#f9f9f9',
@@ -56,14 +61,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 5,
     elevation: 3,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
   },
   cardContent: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    width: '100%',
   },
   details: {
     flex: 1,

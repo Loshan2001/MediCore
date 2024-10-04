@@ -1,60 +1,5 @@
-// import React, { useState } from 'react';
-// import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-
-// const LoginScreen = ({ navigation }) => {
-//   const [username, setUsername] = useState('');
-//   const [password, setPassword] = useState('');
-
-//   const handleLogin = () => {
-//     // Perform login logic, then navigate to Profile
-//     navigation.navigate('Main');
-//   };
-
-//   return (
-//     <View style={styles.container}>
-//       <Text style={styles.title}>MEDICAL</Text>
-//       <TextInput
-//         placeholder="User Name"
-//         value={username}
-//         onChangeText={setUsername}
-//         style={styles.input}
-//       />
-//       <TextInput
-//         placeholder="Password"
-//         value={password}
-//         onChangeText={setPassword}
-//         secureTextEntry
-//         style={styles.input}
-//       />
-//       <Button title="Sign In" onPress={handleLogin} />
-//       <Text onPress={() => navigation.navigate('SignUp')}>Sign Up</Text>
-//     </View>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     padding: 20,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//   },
-//   title: {
-//     fontSize: 30,
-//     fontWeight: 'bold',
-//     marginBottom: 20,
-//   },
-//   input: {
-//     width: '100%',
-//     padding: 10,
-//     marginBottom: 15,
-//     borderWidth: 1,
-//     borderColor: '#ccc',
-//     borderRadius: 5,
-//   },
-// });
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, ImageBackground, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, StyleSheet, ImageBackground, TouchableOpacity, SafeAreaView } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { LinearGradient } from 'expo-linear-gradient';
 import Logo from '../../assets/hospitallogo.webp';
@@ -70,68 +15,80 @@ const LoginScreen = ({ navigation }) => {
   };
 
   return (
-    <ImageBackground source={Logo} style={styles.background}>
-      <LinearGradient colors={['#FFDD44', '#FFCC00']} style={styles.container}>
-        <Text style={styles.title}>MEDICORE</Text>
+    <SafeAreaView style={styles.safeArea}>
+      <ImageBackground source={Logo} style={styles.background}>
+        <LinearGradient colors={['#005596', '#ffffff']} style={styles.container}>
+          <Text style={styles.title}>MEDICORE</Text>
 
-        {/* Role Selection */}
-        <View style={styles.radioContainer}>
-          <TouchableOpacity style={styles.radioOption} onPress={() => setSelectedRole('user')}>
-            <View style={[styles.radioCircle, selectedRole === 'user' && styles.selectedRadio]} />
-            <Text style={styles.radioLabel}>User</Text>
+          {/* Role Selection */}
+          <View style={styles.radioContainer}>
+            <TouchableOpacity style={styles.radioOption} onPress={() => setSelectedRole('user')}>
+              <View style={[styles.radioCircle, selectedRole === 'user' && styles.selectedRadio]} />
+              <Text style={styles.radioLabel}>User</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.radioOption} onPress={() => setSelectedRole('doctor')}>
+              <View style={[styles.radioCircle, selectedRole === 'doctor' && styles.selectedRadio]} />
+              <Text style={styles.radioLabel}>Doctor</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Username Input */}
+          <View style={styles.inputContainer}>
+            <Icon name="person" size={24} color="#000" />
+            <TextInput
+              placeholder="User Name"
+              value={username}
+              onChangeText={setUsername}
+              style={styles.input}
+            />
+          </View>
+
+          {/* Password Input */}
+          <View style={styles.inputContainer}>
+            <Icon name="lock" size={24} color="#000" />
+            <TextInput
+              placeholder="Password"
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry
+              style={styles.input}
+            />
+          </View>
+
+          {/* Login Button */}
+          <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+            <Text style={styles.loginButtonText}>Sign In</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.radioOption} onPress={() => setSelectedRole('doctor')}>
-            <View style={[styles.radioCircle, selectedRole === 'doctor' && styles.selectedRadio]} />
-            <Text style={styles.radioLabel}>Doctor</Text>
-          </TouchableOpacity>
-        </View>
-
-        {/* Username Input */}
-        <View style={styles.inputContainer}>
-          <Icon name="person" size={24} color="#000" />
-          <TextInput
-            placeholder="User Name"
-            value={username}
-            onChangeText={setUsername}
-            style={styles.input}
-          />
-        </View>
-
-        {/* Password Input */}
-        <View style={styles.inputContainer}>
-          <Icon name="lock" size={24} color="#000" />
-          <TextInput
-            placeholder="Password"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-            style={styles.input}
-          />
-        </View>
-
-        {/* Login Button */}
-        <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-          <Text style={styles.loginButtonText}>Sign In</Text>
-        </TouchableOpacity>
-
-        {/* Sign Up Link */}
-        <Text style={styles.signUpText} onPress={() => navigation.navigate('SignUp')}>
-          Don't have an account? <Text style={styles.signUpLink}>Sign Up</Text>
-        </Text>
-      </LinearGradient>
-    </ImageBackground>
+          {/* Sign Up Link */}
+          <Text style={styles.signUpText} onPress={() => navigation.navigate('SignUp')}>
+            Don't have an account? <Text style={styles.signUpLink}>Sign Up</Text>
+          </Text>
+        </LinearGradient>
+      </ImageBackground>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+  },
   background: {
     flex: 1,
+    justifyContent: 'center',
   },
   container: {
     flex: 1,
     justifyContent: 'center',
     padding: 20,
+    borderRadius: 0, // Optional for rounded corners
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    elevation: 5,
   },
   title: {
     fontSize: 40,
@@ -155,17 +112,17 @@ const styles = StyleSheet.create({
     width: 20,
     borderRadius: 10,
     borderWidth: 2,
-    borderColor: '#000',
+    borderColor: '#fff', // Change to white for better contrast
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: 10,
   },
   selectedRadio: {
-    backgroundColor: '#000',
+    backgroundColor: '#fff', // Change to white for better contrast
   },
   radioLabel: {
     fontSize: 18,
-    color: '#000',
+    color: '#fff', // Change to white for better contrast
   },
   inputContainer: {
     flexDirection: 'row',
@@ -185,7 +142,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   loginButton: {
-    backgroundColor: '#ffa200',
+    backgroundColor: '#005596',
     paddingVertical: 15,
     borderRadius: 10,
     marginTop: 20,
@@ -193,7 +150,7 @@ const styles = StyleSheet.create({
   loginButtonText: {
     textAlign: 'center',
     fontSize: 18,
-    color: '#000',
+    color: '#fff',
     fontWeight: 'bold',
   },
   signUpText: {

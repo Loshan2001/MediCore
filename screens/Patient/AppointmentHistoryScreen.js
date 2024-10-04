@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, SafeAreaView } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons'; 
+import { LinearGradient } from 'expo-linear-gradient';
 
 const appointments = [
   { id: '1', doctor: 'Dr. Aneesha De Silva', date: '21 AUG', hospital: 'Hemas Hospital', time: '2:00pm - 5:00pm' },
@@ -36,21 +37,26 @@ const AppointmentHistoryScreen = () => {
   );
 
   return (
-    <View style={styles.container}>
-      <FlatList
-        data={appointments}
-        keyExtractor={(item) => item.id}
-        renderItem={renderAppointment}
-      />
-    </View>
+    <SafeAreaView style={styles.safeArea}>
+      <LinearGradient colors={['#005596', '#ffffff']} style={styles.container}>
+        <FlatList
+          data={appointments}
+          keyExtractor={(item) => item.id}
+          renderItem={renderAppointment}
+          showsVerticalScrollIndicator={false} // Hides vertical scroll bar
+        />
+      </LinearGradient>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+  },
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#fff',
   },
   card: {
     backgroundColor: '#f9f9f9',
@@ -61,8 +67,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 5,
     elevation: 3,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
   },
   cardContent: {
     flexDirection: 'row',
