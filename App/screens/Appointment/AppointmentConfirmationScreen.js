@@ -26,7 +26,7 @@ const AppointmentConfirmationScreen = ({ route, navigation }) => {
         </View>
 
         {/* Go Back to Home Button */}
-        <TouchableOpacity style={styles.homeButton} onPress={() => navigation.navigate('Home')}>
+        <TouchableOpacity style={styles.homeButton} onPress={() => navigation.navigate('HomeScreen')}>
           <Text style={styles.homeButtonText}>Go Back to Home</Text>
           <Icon name="home-outline" size={18} color="#fff" />
         </TouchableOpacity>

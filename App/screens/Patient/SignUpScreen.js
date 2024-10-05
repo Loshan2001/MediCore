@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, ImageBackground, TouchableOpacity, SafeAreaView, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { LinearGradient } from 'expo-linear-gradient';
-import axios from 'axios';  // Import Axios for API requests
-import Logo from '../../assets/hospitallogo.webp'; // Ensure this path is correct
+import axios from 'axios';
+import Logo from '../../assets/hospitallogo.webp';
 
 const SignUpScreen = ({ navigation }) => {
   const [fullName, setFullName] = useState('');
@@ -11,9 +11,7 @@ const SignUpScreen = ({ navigation }) => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  // Function to handle signup and API call
   const handleSignUp = async () => {
-    // Validate form inputs
     if (!fullName || !email || !password || !confirmPassword) {
       Alert.alert('Error', 'All fields are required.');
       return;
@@ -25,26 +23,23 @@ const SignUpScreen = ({ navigation }) => {
     }
   
     try {
-      // Call the signup API endpoint with user details
       const response = await axios.post('http://localhost:5001/api/user/signup', {
         fullName,
-        email,
+        email: email.toLowerCase(), // Ensure email is lowercase
         password,
       });
   
-      // Handle response from the server
       if (response.status === 201) {
         Alert.alert('Success', 'Account created successfully!', [
           {
             text: 'OK',
-            onPress: () => navigation.navigate('Login'), // Navigate after user acknowledges
+            onPress: () => navigation.navigate('Login'),
           },
         ]);
       } else {
         Alert.alert('Error', 'Unable to sign up. Please try again.');
       }
     } catch (error) {
-      // Handle error from the API request
       console.error('Signup Error:', error);
       Alert.alert('Error', 'There was a problem with the signup process.');
     }
@@ -71,8 +66,10 @@ const SignUpScreen = ({ navigation }) => {
             <TextInput
               placeholder="Email"
               value={email}
-              onChangeText={setEmail}
+              onChangeText={(text) => setEmail(text.toLowerCase())} // Convert to lowercase
               style={styles.input}
+              autoCapitalize="none" // Prevent auto-capitalization
+              keyboardType="email-address" // Use email keyboard
             />
           </View>
 
@@ -123,7 +120,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     padding: 20,
-    borderRadius: 0, // Optional for rounded corners
+    borderRadius: 0,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,

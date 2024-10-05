@@ -30,87 +30,80 @@ import UpdateAccountScreen from '../screens/Patient/UpdateAccountScreen';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-// Stack Navigator for the authentication flow (Login, SignUp)
-const AuthStack = () => {
-  return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Login" component={LoginScreen} />
-      <Stack.Screen name="SignUp" component={SignUpScreen} />
-    </Stack.Navigator>
-  );
-};
+const AuthStack = () => (
+  <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Screen name="Login" component={LoginScreen} />
+    <Stack.Screen name="SignUp" component={SignUpScreen} />
+  </Stack.Navigator>
+);
 
-// Stack Navigator for detailed stack-based flows
-const StackNavigator = () => {
-  return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Home" component={Home} />
-      <Stack.Screen name="Appointment" component={AppointmentScreen} />
-      <Stack.Screen name="GenerateReport" component={GenerateReportScreen} />
-      <Stack.Screen name="GenerateReportFilter" component={GenerateReportFilterScreen} />
-      <Stack.Screen name="GenerateReportAlert" component={GenerateReportAlertScreen} />
-      <Stack.Screen name="ReportView" component={ReportViewScreen} />
-      <Stack.Screen name="DoctorSearchResults" component={DoctorSearchResultsScreen} />
-      <Stack.Screen name="DoctorDetail" component={DoctorDetailScreen} />
-      <Stack.Screen name="HospitalSearchResults" component={HospitalSearchResultsScreen} />
-      <Stack.Screen name="HospitalDetail" component={HospitalDetailScreen} />
-      <Stack.Screen name="AppointmentConfirmation" component={AppointmentConfirmationScreen} />
-      <Stack.Screen name="AppointmentHistory" component={AppointmentHistoryScreen} />
-      <Stack.Screen name="MedicalHistory" component={MedicalHistoryScreen} />
-      <Stack.Screen name="UpdateAccount" component={UpdateAccountScreen} />
-    </Stack.Navigator>
-  );
-};
+const HomeStack = () => (
+  <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Screen name="HomeScreen" component={Home} />
+    <Stack.Screen name="GenerateReport" component={GenerateReportScreen} />
+    <Stack.Screen name="GenerateReportFilter" component={GenerateReportFilterScreen} />
+    <Stack.Screen name="GenerateReportAlert" component={GenerateReportAlertScreen} />
+    <Stack.Screen name="ReportView" component={ReportViewScreen} />
+  </Stack.Navigator>
+);
 
-const TabNavigator = () => {
-  return (
-    <Tab.Navigator
-      screenOptions={({ route }) => ({
-        headerShown: false, // Remove headers for all tab screens
-        tabBarIcon: ({ focused, size }) => {
-          let iconName;
+const AppointmentStack = () => (
+  <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Screen name="AppointmentScreen" component={AppointmentScreen} />
+    <Stack.Screen name="DoctorSearchResults" component={DoctorSearchResultsScreen} />
+    <Stack.Screen name="DoctorDetail" component={DoctorDetailScreen} />
+    <Stack.Screen name="HospitalSearchResults" component={HospitalSearchResultsScreen} />
+    <Stack.Screen name="HospitalDetail" component={HospitalDetailScreen} />
+    <Stack.Screen name="AppointmentConfirmation" component={AppointmentConfirmationScreen} />
+  </Stack.Navigator>
+);
 
-          // Assign different icons based on the route name
-          if (route.name === 'Home') {
-            iconName = 'home-outline';
-          } else if (route.name === 'Appointment') {
-            iconName = 'calendar-outline';
-          } else if (route.name === 'Report') {
-            iconName = 'document-text-outline';
-          } else if (route.name === 'Profile') {
-            iconName = 'person-outline';
-          }
+const ProfileStack = () => (
+  <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
+    <Stack.Screen name="AppointmentHistory" component={AppointmentHistoryScreen} />
+    <Stack.Screen name="MedicalHistory" component={MedicalHistoryScreen} />
+    <Stack.Screen name="UpdateAccount" component={UpdateAccountScreen} />
+  </Stack.Navigator>
+);
 
-          // Return the corresponding icon component
-          return <Icon name={iconName} size={size} color="white" />;
-        },
-        tabBarActiveTintColor: 'white',
-        tabBarInactiveTintColor: 'white',
-        tabBarStyle: {
-          backgroundColor: '#005596',
-          height: 60, // Increased height
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          elevation: 0,
-          borderTopWidth: 0,
-        },
-        tabBarItemStyle: {
-          paddingBottom: 9,
-          paddingTop: 10,
-        },
-      })}
-    >
-      <Tab.Screen name="Home" component={StackNavigator} />
-      <Tab.Screen name="Appointment" component={AppointmentScreen} />
-      <Tab.Screen name="Report" component={ReportScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
-    </Tab.Navigator>
-  );
-};
+const TabNavigator = () => (
+  <Tab.Navigator
+    screenOptions={({ route }) => ({
+      headerShown: false,
+      tabBarIcon: ({ focused, size }) => {
+        let iconName;
+        if (route.name === 'Home') iconName = 'home-outline';
+        else if (route.name === 'Appointment') iconName = 'calendar-outline';
+        else if (route.name === 'Report') iconName = 'document-text-outline';
+        else if (route.name === 'Profile') iconName = 'person-outline';
+        return <Icon name={iconName} size={size} color="white" />;
+      },
+      tabBarActiveTintColor: 'white',
+      tabBarInactiveTintColor: 'white',
+      tabBarStyle: {
+        backgroundColor: '#005596',
+        height: 60,
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        elevation: 0,
+        borderTopWidth: 0,
+      },
+      tabBarItemStyle: {
+        paddingBottom: 9,
+        paddingTop: 10,
+      },
+    })}
+  >
+    <Tab.Screen name="Home" component={HomeStack} />
+    <Tab.Screen name="Appointment" component={AppointmentStack} />
+    <Tab.Screen name="Report" component={ReportScreen} />
+    <Tab.Screen name="Profile" component={ProfileStack} />
+  </Tab.Navigator>
+);
 
-// Modified AppNavigation component
 const AppNavigation = () => {
   React.useEffect(() => {
     if (Platform.OS === 'android') {
@@ -132,11 +125,10 @@ const AppNavigation = () => {
   );
 };
 
-// Updated styles
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#005596', // Changed to yellow to match your tab bar color
+    backgroundColor: '#005596',
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
 });

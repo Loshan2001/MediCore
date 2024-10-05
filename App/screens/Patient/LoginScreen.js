@@ -1,17 +1,60 @@
+
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, ImageBackground, TouchableOpacity, SafeAreaView } from 'react-native';
+import { View, Text, TextInput, StyleSheet, ImageBackground, TouchableOpacity, SafeAreaView, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { LinearGradient } from 'expo-linear-gradient';
+import axios from 'axios';
 import Logo from '../../assets/hospitallogo.webp';
 
 const LoginScreen = ({ navigation }) => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [selectedRole, setSelectedRole] = useState('user'); // default selection
+  const [selectedRole, setSelectedRole] = useState('user');
 
-  const handleLogin = () => {
-    // Navigate to Main screen and pass the selectedRole
-    navigation.navigate('Main', { role: selectedRole });
+  const handleLogin = async () => {
+    if (!email || !password) {
+      Alert.alert('Error', 'Please enter both email and password.');
+      return;
+    }
+  
+    try {
+      const response = await axios.post('http://localhost:5001/api/user/login', {
+        email,
+        password,
+      });
+  
+      if (response.status === 200 && response.data.token) {
+        // console.log('Token:', response.data.token);
+        // navigation.navigate('Main', { role: selectedRole });
+        Alert.alert('Success', 'successfully login', [
+          {
+            text: 'OK',
+            onPress: () => navigation.navigate('Main'), // Navigate after user acknowledges
+          },
+        ]);
+        setEmail('');
+        setPassword('');
+        setSelectedRole('user'); // Reset the role to default if needed
+      } else {
+        Alert.alert('Error', 'Login failed. Please try again.');
+      }
+    } catch (error) {
+      console.error('Login Error:', error);
+      if (error.response) {
+        // The server responded with a status code outside the 2xx range
+        if (error.response.status === 400) {
+          Alert.alert('Error', 'Invalid email or password. Please check your credentials.');
+        } else {
+          Alert.alert('Error', `Server error: ${error.response.status}. ${error.response.data.msg || 'Please try again later.'}`);
+        }
+      } else if (error.request) {
+        // The request was made but no response was received
+        Alert.alert('Error', 'No response from server. Please check your internet connection and try again.');
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        Alert.alert('Error', `An unexpected error occurred: ${error.message}`);
+      }
+    }
   };
 
   return (
@@ -33,14 +76,16 @@ const LoginScreen = ({ navigation }) => {
             </TouchableOpacity>
           </View>
 
-          {/* Username Input */}
+          {/* Email Input */}
           <View style={styles.inputContainer}>
-            <Icon name="person" size={24} color="#000" />
+            <Icon name="email" size={24} color="#000" />
             <TextInput
-              placeholder="User Name"
-              value={username}
-              onChangeText={setUsername}
+              placeholder="Email"
+              value={email}
+              onChangeText={setEmail}
               style={styles.input}
+              keyboardType="email-address"
+              autoCapitalize="none"
             />
           </View>
 
