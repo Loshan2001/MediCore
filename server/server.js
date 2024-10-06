@@ -9,9 +9,9 @@ const app = express();
 app.use(bodyParser.json());
 
 const authRoutes = require("./routes/userRoute"); 
-
+const appointmRoute = require("./routes/appointmentRoute")
 app.use("/api/user", authRoutes);
-
+app.use("/api/appointment",appointmRoute)
 
 mongoose
   .connect(process.env.MONGO_URI, {

@@ -20,6 +20,16 @@ const userSchema = new mongoose.Schema({
     enum: ['doctor', 'patient'],  
     default: 'patient', 
   },
+  phoneNo: {
+    type: String,
+    default: '', 
+  },
+  address: {
+    type: String,
+    default: '', 
+  },
+
+
 });
 
 module.exports = mongoose.model("User", userSchema);
