@@ -67,42 +67,58 @@ const ProfileStack = () => (
   </Stack.Navigator>
 );
 
-const TabNavigator = () => (
-  <Tab.Navigator
-    screenOptions={({ route }) => ({
-      headerShown: false,
-      tabBarIcon: ({ focused, size }) => {
-        let iconName;
-        if (route.name === 'Home') iconName = 'home-outline';
-        else if (route.name === 'Appointment') iconName = 'calendar-outline';
-        else if (route.name === 'Report') iconName = 'document-text-outline';
-        else if (route.name === 'Profile') iconName = 'person-outline';
-        return <Icon name={iconName} size={size} color="white" />;
-      },
-      tabBarActiveTintColor: 'white',
-      tabBarInactiveTintColor: 'white',
-      tabBarStyle: {
-        backgroundColor: '#005596',
-        height: 60,
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        elevation: 0,
-        borderTopWidth: 0,
-      },
-      tabBarItemStyle: {
-        paddingBottom: 9,
-        paddingTop: 10,
-      },
-    })}
-  >
-    <Tab.Screen name="Home" component={HomeStack} />
-    <Tab.Screen name="Appointment" component={AppointmentStack} />
-    <Tab.Screen name="Report" component={ReportScreen} />
-    <Tab.Screen name="Profile" component={ProfileStack} />
-  </Tab.Navigator>
-);
+const TabNavigator = ({ route }) => {
+  const { role } = route.params || { role: 'patient' }; // Default to 'patient' if no role
+
+  return (
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        headerShown: false,
+        tabBarIcon: ({ focused, size }) => {
+          let iconName;
+          if (route.name === 'Home') iconName = 'home-outline';
+          else if (route.name === 'Appointment') iconName = 'calendar-outline';
+          else if (route.name === 'Report') iconName = 'document-text-outline';
+          else if (route.name === 'Profile') iconName = 'person-outline';
+          return <Icon name={iconName} size={size} color="white" />;
+        },
+        tabBarActiveTintColor: 'white',
+        tabBarInactiveTintColor: 'white',
+        tabBarStyle: {
+          backgroundColor: '#005596',
+          height: 60,
+        },
+        tabBarItemStyle: {
+          paddingBottom: 9,
+          paddingTop: 10,
+        },
+      })}
+    >
+
+{role === 'patient' && (
+  <>
+ 
+   <Tab.Screen name="Home" component={HomeStack} />
+
+   {/* Appointment tab visible for both users and doctors */}
+   <Tab.Screen name="Appointment" component={AppointmentStack} />
+
+
+   </>
+
+)}
+
+      {role === 'doctor' && (
+        <>
+         <Tab.Screen name="Home" component={HomeStack} />
+        <Tab.Screen name="Report" component={ReportScreen} />
+        </>
+      )}
+      <Tab.Screen name="Profile" component={ProfileStack} />
+    </Tab.Navigator>
+  );
+};
+
 
 const AppNavigation = () => {
   React.useEffect(() => {
@@ -114,16 +130,19 @@ const AppNavigation = () => {
 
   return (
     <NavigationContainer>
-      <StatusBar backgroundColor="#005596" barStyle="light-content" /> 
+      <StatusBar backgroundColor="#005596" barStyle="light-content" />
       <SafeAreaView style={styles.safeArea}>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Auth" component={AuthStack} />
+          
+          {/* Pass role to Main */}
           <Stack.Screen name="Main" component={TabNavigator} />
         </Stack.Navigator>
       </SafeAreaView>
     </NavigationContainer>
   );
 };
+
 
 const styles = StyleSheet.create({
   safeArea: {
