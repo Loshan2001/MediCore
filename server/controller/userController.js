@@ -65,9 +65,9 @@ const userAuthController = {
       const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
         expiresIn: '1h',
       });
-
+     
       // Respond with token
-      res.status(200).json({ token });
+      res.status(200).json({ token , userType : user.userType , username : user.fullName , userId : user._id});
     } catch (error) {
       console.error(error);
       res.status(500).json({ msg: 'Server error' });
