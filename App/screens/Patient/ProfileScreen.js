@@ -1,9 +1,47 @@
-import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { View, Text, Image, StyleSheet, TouchableOpacity, SafeAreaView, ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons'; 
 import { LinearGradient } from 'expo-linear-gradient';
+import { AuthContext } from '../../context/AuthContext'; // Import AuthContext
+import axios from 'axios'; // Import axios for API call
 
 const ProfileScreen = ({ navigation }) => {
+  const { user } = useContext(AuthContext); // Access user from AuthContext
+  const [profile, setProfile] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch the profile when the component mounts
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5001/api/user/profile/${user.id}`);
+        setProfile(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching profile:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchProfile();
+  }, [user.id]);
+
+  if (loading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator size="large" color="#005596" />
+      </View>
+    );
+  }
+
+  if (!profile) {
+    return (
+      <View style={styles.centered}>
+        <Text>No profile data found.</Text>
+      </View>
+    );
+  }
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <LinearGradient colors={['#005596', '#ffffff']} style={styles.container}>
@@ -28,12 +66,11 @@ const ProfileScreen = ({ navigation }) => {
 
         {/* Profile Info */}
         <Text style={styles.title}>MY PROFILE</Text>
-        <Text style={styles.info}>User Name: IMESHA PASINDU</Text>
-        <Text style={styles.info}>Date of Birth: 1990-05-11</Text>
-        <Text style={styles.info}>Address: 9, New Road COL-3</Text>
-        <Text style={styles.info}>Email: imasha@gmail.com</Text>
-        <Text style={styles.info}>Phone No: 0773456798</Text>
-        <Text style={styles.info}>Age: 35</Text>
+        <Text style={styles.info}>User Name: {profile.fullName}</Text>
+        <Text style={styles.info}>Address: {profile.address || 'N/A'}</Text>
+        <Text style={styles.info}>Email: {profile.email}</Text>
+        <Text style={styles.info}>Phone No: {profile.phoneNo || 'N/A'}</Text>
+        {/* <Text style={styles.info}>Age: {profile.age || 'N/A'}</Text> */}
 
         {/* Buttons */}
         <TouchableOpacity
@@ -55,7 +92,7 @@ const ProfileScreen = ({ navigation }) => {
           <Text style={styles.buttonText}>Update Account</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.buttonLogout}
-        onPress={() => navigation.navigate('Login')}
+          onPress={() => navigation.navigate('Login')}
         >
           <Text style={styles.buttonText}>Log Out</Text>
         </TouchableOpacity>
@@ -87,7 +124,6 @@ const styles = StyleSheet.create({
   },
   headerIcon: {
     fontSize: 20,
-    
   },
   profileImageContainer: {
     alignItems: 'center',
@@ -133,6 +169,11 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
   },
+  centered: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
 });
 
 export default ProfileScreen;

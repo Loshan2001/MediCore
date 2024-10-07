@@ -1,18 +1,56 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, SafeAreaView } from 'react-native';
+import React, { useState, useEffect, useContext } from 'react';
+import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, SafeAreaView, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { AuthContext } from '../../context/AuthContext'; // Importing AuthContext for user authentication context
+import axios from 'axios'; // Import Axios
 
 const UpdateAccountScreen = () => {
-  const [fullName, setFullName] = useState('IMESHA PASINDU');
-  const [email, setEmail] = useState('imasha@gmail.com');
-  const [address, setAddress] = useState('9, NEW ROAD COLOMBO - 03');
-  const [phone, setPhone] = useState('0773456798');
+  const { user } = useContext(AuthContext); // Getting the authenticated user info
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [address, setAddress] = useState('');
+  const [phone, setPhone] = useState('');
   const [isEditing, setIsEditing] = useState(false);
 
-  const handleUpdate = () => {
-    // Update account logic
-    alert('Account Updated');
-    setIsEditing(false);
+  useEffect(() => {
+    // Fetch user data from backend API
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5001/api/user/profile/${user.id}`);
+        const data = response.data; // Access data directly with Axios
+
+        setFullName(data.fullName);
+        setEmail(data.email);
+        setAddress(data.address);
+        setPhone(data.phone);
+      } catch (error) {
+        console.error('Failed to load user data', error);
+        Alert.alert('Error', 'Failed to load user data. Please try again later.'); // Show alert on error
+      }
+    };
+
+    fetchUserData();
+  }, [user.id]);
+
+  const handleUpdate = async () => {
+    try {
+      const response = await axios.put(`http://localhost:5001/api/user/update/${user.id}`, {
+        fullName,
+        email,
+        address,
+        phone,
+      });
+
+      if (response.status === 200) {
+        Alert.alert('Success', 'Account updated successfully');
+        setIsEditing(false);
+      } else {
+        Alert.alert('Error', 'Failed to update account');
+      }
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      Alert.alert('Error', 'Server error, please try again');
+    }
   };
 
   const toggleEdit = () => {
@@ -23,7 +61,7 @@ const UpdateAccountScreen = () => {
     <SafeAreaView style={styles.safeArea}>
       <LinearGradient colors={['#005596', '#ffffff']} style={styles.container}>
         <Text style={styles.title}>MY PROFILE</Text>
-        
+
         {/* Profile Image and Info */}
         <View style={styles.profileImageContainer}>
           <Image
