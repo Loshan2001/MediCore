@@ -73,6 +73,50 @@ const userAuthController = {
       res.status(500).json({ msg: 'Server error' });
     }
   },
+
+  getProfile : async (req, res) => {
+    try {
+      const { userId } = req.params;
+      
+      // Find user by ID
+      const user = await User.findById(userId).select('-password'); 
+      
+      if (!user) {
+        return res.status(404).json({ msg: 'User not found' });
+      }
+      
+      res.status(200).json(user);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ msg: 'Server error' });
+    }
+  },
+  updateUser : async (req, res) => {
+    const { userId } = req.params;
+    const { fullName, email, address, phoneNo } = req.body;
+  
+    try {
+      // Find the user by ID and update their information
+      const updatedUser = await User.findByIdAndUpdate(
+        userId,
+        {
+          fullName,
+          email,
+          address,
+          phoneNo,
+        },
+        { new: true } // Return the updated document
+      );
+  
+      if (!updatedUser) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+  
+      res.status(200).json(updatedUser);
+    } catch (error) {
+      res.status(500).json({ message: 'Error updating user', error });
+    }
+  }
 };
 
 
