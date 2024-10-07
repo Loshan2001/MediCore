@@ -9,7 +9,7 @@ const UpdateAccountScreen = () => {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [address, setAddress] = useState('');
-  const [phone, setPhone] = useState('');
+  const [phoneNo, setPhoneNo] = useState('');
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
@@ -22,7 +22,7 @@ const UpdateAccountScreen = () => {
         setFullName(data.fullName);
         setEmail(data.email);
         setAddress(data.address);
-        setPhone(data.phone);
+        setPhoneNo(data.phoneNo);
       } catch (error) {
         console.error('Failed to load user data', error);
         Alert.alert('Error', 'Failed to load user data. Please try again later.'); // Show alert on error
@@ -38,7 +38,7 @@ const UpdateAccountScreen = () => {
         fullName,
         email,
         address,
-        phone,
+        phoneNo,
       });
 
       if (response.status === 200) {
@@ -95,8 +95,8 @@ const UpdateAccountScreen = () => {
             />
             <TextInput
               placeholder="Phone No"
-              value={phone}
-              onChangeText={setPhone}
+              value={phoneNo}
+              onChangeText={setPhoneNo}
               style={styles.input}
               keyboardType="phone-pad"
             />
@@ -117,7 +117,7 @@ const UpdateAccountScreen = () => {
             <Text style={styles.info}>{address}</Text>
 
             <Text style={styles.label}>Phone No:</Text>
-            <Text style={styles.info}>{phone}</Text>
+            <Text style={styles.info}>{phoneNo}</Text>
 
             <TouchableOpacity style={styles.button} onPress={toggleEdit}>
               <Text style={styles.buttonText}>EDIT PROFILE</Text>
