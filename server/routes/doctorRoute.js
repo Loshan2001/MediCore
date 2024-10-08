@@ -6,4 +6,5 @@ router.post('/assign', doctorController.assignDoctor);
 router.delete('/delete/:id', doctorController.deleteDoctor);
 router.put('/update/:userId', doctorController.updateDoctor);
 router.get('/getAll', doctorController.getAllDoctors); 
+router.get('/:id', doctorController.getDoctorById); 
 module.exports = router; 

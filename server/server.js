@@ -15,9 +15,12 @@ app.use(bodyParser.json());
 const authRoutes = require("./routes/userRoute"); 
 const appointmRoute = require("./routes/appointmentRoute")
 const doctorRoute = require("./routes/doctorRoute")
+const hospitalRoute = require("./routes/hospitalRoute")
 app.use("/api/user", authRoutes);
 app.use("/api/appointment",appointmRoute)
 app.use("/api/doctor",doctorRoute)
+app.use("/api/hospital",hospitalRoute)
+
 mongoose
   .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,

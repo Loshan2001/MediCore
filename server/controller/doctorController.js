@@ -40,3 +40,20 @@ exports.getAllDoctors = async (req, res) => {
     res.status(500).json({ error: 'Error fetching doctors' });
   }
 };
+// Get doctor by ID
+exports.getDoctorById = async (req, res) => {
+  try {
+    const doctorId = req.params.id; 
+
+    const doctor = await Doctor.findOne({ _id: doctorId, userType: 'doctor' });
+
+    if (!doctor) {
+      return res.status(404).json({ error: 'Doctor not found or user is not a doctor' });
+    }
+
+    res.status(200).json(doctor); 
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching doctor by ID' }); // Handle errors
+  }
+};
+
