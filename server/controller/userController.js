@@ -116,7 +116,18 @@ const userAuthController = {
     } catch (error) {
       res.status(500).json({ message: 'Error updating user', error });
     }
-  }
+  },
+  getAllUsers : async (req, res) => {
+    try {
+      // Fetch all users
+      const users = await User.find().select('-password');
+      res.status(200).json(users);
+    } catch (error) {
+      res.status(500).json({ message: 'Error fetching users', error });
+    }
+  },
+
+
 };
 
 
