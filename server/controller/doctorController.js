@@ -1,9 +1,28 @@
 const Doctor = require('../models/User'); // Assuming you have a Doctor model
-
+const bcrypt = require('bcryptjs'); 
+// // Assign a new doctor
+// exports.assignDoctor = async (req, res) => {
+//   try {
+//     const newDoctor = new Doctor(req.body); // Assuming you're sending the doctor data in req.body
+//     await newDoctor.save();
+//     res.status(201).json({ message: 'Doctor assigned successfully', doctor: newDoctor });
+//   } catch (error) {
+//     res.status(500).json({ error: 'Error assigning doctor' });
+//   }
+// };
 // Assign a new doctor
 exports.assignDoctor = async (req, res) => {
   try {
-    const newDoctor = new Doctor(req.body); // Assuming you're sending the doctor data in req.body
+    // Hash the password before saving
+    const salt = await bcrypt.genSalt(10); // Generate a salt
+    const hashedPassword = await bcrypt.hash(req.body.password, salt); // Hash the password with the salt
+
+    // Create new doctor with hashed password
+    const newDoctor = new Doctor({
+      ...req.body,
+      password: hashedPassword, // Use the hashed password
+    });
+
     await newDoctor.save();
     res.status(201).json({ message: 'Doctor assigned successfully', doctor: newDoctor });
   } catch (error) {
