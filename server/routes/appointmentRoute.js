@@ -4,7 +4,8 @@ const router = express.Router();
 const appointmentController = require('../controller/AppointmentController');
 
 
-router.post('/create/appointments', appointmentController.createAppointment);
-router.get('/appointments', appointmentController.getAppointments);
+router.post('/create', appointmentController.createAppointment);
+router.get('/', appointmentController.getAppointments);
+router.delete('/delete/:id', appointmentController.deleteAppointment);
 
 module.exports = router;

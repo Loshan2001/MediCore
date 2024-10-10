@@ -59,7 +59,7 @@ function Hospital({ doctors }) {
     <div className="p-6 relative">
       <h2 className="text-2xl font-bold mb-4">Hospital Information</h2>
       <button
-        className="bg-blue-500 text-white px-2 py-1 rounded mr-2 mb-2"
+        className="bg-green-500 text-white px-4 py-2 rounded mb-4"
         onClick={() => setAssignModalOpen(true)}
       >
         Assign Hospital
@@ -112,7 +112,6 @@ function Hospital({ doctors }) {
         <AssignHospitalModal
           isOpen={isAssignModalOpen}
           onClose={() => setAssignModalOpen(false)}
-          onAssign={handleAssignHospital}
           doctors={doctors}
         />
       )}

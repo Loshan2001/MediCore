@@ -2,9 +2,12 @@ import { Route, Routes } from "react-router-dom";
 
 import Sidebar from "./components/common/Sidebar";
 import Hospital from "./pages/hospital/Hospital";
-
+import UsersPage from "./pages/UsersPage";
 import SettingsPage from "./pages/SettingsPage";
-import Doctor from "./pages/doctor/Doctor";
+import DoctorPage from "./pages/DoctorPage";
+import HospitalPage from "./pages/HospitalPage";
+import Appointment from "./pages/appointment/Appointment";
+import AppointmentPage from "./pages/AppointmentPage";
 
 function App() {
 	return (
@@ -20,13 +23,15 @@ function App() {
 				
 				{/* <Route path='/' element={<OverviewPage />} /> */}
 				{/* <Route path='/products' element={<ProductsPage />} />
-				<Route path='/users' element={<UsersPage />} />
+				
 				<Route path='/sales' element={<SalesPage />} />
 				<Route path='/orders' element={<OrdersPage />} />
 				<Route path='/analytics' element={<AnalyticsPage />} />*/}
-				<Route path='/doctor' element={<Doctor />} /> 
+				<Route path='/user' element={<UsersPage />} />
+				<Route path='/doctor' element={<DoctorPage />} /> 
 				<Route path='/settings' element={<SettingsPage />} /> 
-				<Route path='/hospital' element={<Hospital/>} /> 
+				<Route path='/hospital' element={<HospitalPage/>} />
+				<Route path='/appointment' element={<AppointmentPage />} />
 			</Routes>
 		</div>
 	);
