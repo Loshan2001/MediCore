@@ -1,4 +1,4 @@
-import { Menu, Calendar, FileText, Settings, Stethoscope, Building } from "lucide-react";
+import { Menu, Calendar, FileText, Settings, Stethoscope, Building, UsersIcon } from "lucide-react";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Link } from "react-router-dom";
@@ -9,6 +9,7 @@ const SIDEBAR_ITEMS = [
 	{ name: "Hospital", icon: Building, color: "#EC4899", href: "/hospital" },
 	{ name: "Appointment", icon: Calendar, color: "#10B981", href: "/appointment" },
 	{ name: "Report", icon: FileText, color: "#F59E0B", href: "/report" },
+	{ name: "User", icon: UsersIcon, color: "#F59E0B", href: "/user" },,
 	{ name: "Settings", icon: Settings, color: "#6EE7B7", href: "/settings"},
 ]; 
 const Sidebar = () => {

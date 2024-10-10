@@ -19,10 +19,12 @@ const authRoutes = require("./routes/userRoute");
 const appointmRoute = require("./routes/appointmentRoute")
 const doctorRoute = require("./routes/doctorRoute")
 const hospitalRoute = require("./routes/hospitalRoute")
+const bookingRoute = require("./routes/bookingRoute")
 app.use("/api/user", authRoutes);
 app.use("/api/appointment",appointmRoute)
 app.use("/api/doctor",doctorRoute)
 app.use("/api/hospital",hospitalRoute)
+app.use("/api/booking", bookingRoute);
 
 mongoose
   .connect(process.env.MONGO_URI, {

@@ -1,21 +1,24 @@
-import { UserCheck, UserPlus, UsersIcon, UserX } from "lucide-react";
+import {UsersIcon} from "lucide-react";
 import { motion } from "framer-motion";
-
 import Header from "../components/common/Header";
 import StatCard from "../components/common/StatCard";
 import UsersTable from "../components/users/UsersTable";
-import UserGrowthChart from "../components/users/UserGrowthChart";
-import UserActivityHeatmap from "../components/users/UserActivityHeatmap";
-import UserDemographicsChart from "../components/users/UserDemographicsChart";
+import { useEffect, useState } from "react";
 
-const userStats = {
-	totalUsers: 152845,
-	newUsersToday: 243,
-	activeUsers: 98520,
-	churnRate: "2.4%",
-};
 
 const UsersPage = () => {
+
+	const [userData, setUserData] = useState([]);
+
+	useEffect(() => {
+		fetch("http://localhost:5001/api/user/all")
+		  .then((res) => res.json())
+		  .then((data) => {
+			setUserData(data); 
+		  })
+		  .catch((err) => console.log(err));
+	  }, []);
+
 	return (
 		<div className='flex-1 overflow-auto relative z-10'>
 			<Header title='Users' />
@@ -31,27 +34,14 @@ const UsersPage = () => {
 					<StatCard
 						name='Total Users'
 						icon={UsersIcon}
-						value={userStats.totalUsers.toLocaleString()}
+						value={userData.length.toLocaleString()}
 						color='#6366F1'
 					/>
-					<StatCard name='New Users Today' icon={UserPlus} value={userStats.newUsersToday} color='#10B981' />
-					<StatCard
-						name='Active Users'
-						icon={UserCheck}
-						value={userStats.activeUsers.toLocaleString()}
-						color='#F59E0B'
-					/>
-					<StatCard name='Churn Rate' icon={UserX} value={userStats.churnRate} color='#EF4444' />
 				</motion.div>
 
 				<UsersTable />
 
-				{/* USER CHARTS */}
-				<div className='grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8'>
-					<UserGrowthChart />
-					<UserActivityHeatmap />
-					<UserDemographicsChart />
-				</div>
+				
 			</main>
 		</div>
 	);

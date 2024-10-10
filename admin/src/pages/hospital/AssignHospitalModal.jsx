@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
-const AssignHospitalModal = ({ isOpen, onClose, onAssign }) => {
+const AssignHospitalModal = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
     name: '',
     number: '',
@@ -52,12 +53,21 @@ const AssignHospitalModal = ({ isOpen, onClose, onAssign }) => {
     if (validateForm()) {
       try {
         const response = await axios.post('http://localhost:5001/api/hospital/assign', formData);
-        onAssign(response.data);
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'Hospital assigned successfully.',
+        })
         onClose();
       } catch (error) {
         console.error('Error assigning hospital:', error);
-        alert('Failed to assign hospital. Please try again.');
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Failed to assign hospital. Please try again.',
+        })
       }
+      window.location.reload();
     } else {
       alert("Please fill out all fields.");
     }

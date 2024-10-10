@@ -51,5 +51,16 @@ exports.getAllHospital = async (req, res) => {
     res.status(200).json(hospitals);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching hospitals', error });
+    console.log(error);
+  }
+};
+
+exports.getAllHospitals = async (req, res) => {
+  try {
+    const hospitals = await Hospital.find().populate('assignedDoctor'); // Populate the assignedDoctor field with the fullName
+    res.status(200).json(hospitals);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching hospitals', error });
+    console.log(error);
   }
 };
