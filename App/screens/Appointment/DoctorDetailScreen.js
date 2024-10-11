@@ -1,31 +1,60 @@
-import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, SafeAreaView } from 'react-native';
+import React, { useContext, useEffect } from 'react';
+import { View, Text, StyleSheet, Image, TouchableOpacity, SafeAreaView, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { AuthContext } from '../../context/AuthContext';
+import axios from 'axios';  // Import axios
 
 const DoctorDetailScreen = ({ route, navigation }) => {
   const { doctor } = route.params;
+  const { user } = useContext(AuthContext); 
+  // console.log(doctor.user._id)
+  // useEffect(() => {
+  //   if (user) {
+  //     console.log(`Logged-in User ID: ${user.id}, Name: ${user.username}`);
+  //   }
+  // }, [user]);
 
-  const confirmAppointment = () => {
-    navigation.navigate('AppointmentConfirmation', { doctor });
+  const confirmAppointment = async () => {
+    if (user) {
+      try {
+        const response = await axios.post('http://localhost:5001/api/booking/create', {
+          userId: user.id,
+          doctorId: doctor.user._id, 
+          appointmentId: doctor._id, 
+          date : doctor.appointmentDate,
+          doctorName : doctor.doctorName,
+          hospitalName : doctor.hospitalName,
+
+        });
+
+        if (response.status === 201) {
+          Alert.alert("Booking Confirmed", "Your appointment has been booked successfully.");
+          navigation.navigate('AppointmentConfirmation', { doctor }); 
+        }
+      } catch (error) {
+        console.error("Error booking appointment:", error);
+        Alert.alert("Error", "There was an error confirming your appointment. Please try again.");
+      }
+    } else {
+      Alert.alert("Authentication Required", "Please log in to book an appointment.");
+    }
   };
 
-  // Format the date (assuming appointmentDate is a string or Date object)
   const formatDate = (date) => {
     const d = new Date(date);
     const year = d.getFullYear();
-    const month = (`0${d.getMonth() + 1}`).slice(-2); // Adding leading zero if needed
-    const day = (`0${d.getDate()}`).slice(-2); // Adding leading zero if needed
+    const month = (`0${d.getMonth() + 1}`).slice(-2); 
+    const day = (`0${d.getDate()}`).slice(-2); 
     return `${year}-${month}-${day}`;
   };
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <LinearGradient
-        colors={['#005596', '#ffffff']} // Gradient background
+        colors={['#005596', '#ffffff']}
         style={styles.gradientBackground}
       >
-        {/* Header with back button and icons */}
         <View style={styles.header}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <Icon name="arrow-back" size={24} color="#fff" />
