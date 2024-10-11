@@ -6,6 +6,10 @@ const AppointmentSchema = new mongoose.Schema({
   appointmentTimeSlot: { type: String, required: true },
   appointmentDate: { type: Date, required: true },
   maxPatients: { type: Number, required: true },
-  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User'} 
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+  hospital: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Hospital',
+  }
 });
 module.exports = mongoose.model("Appointment", AppointmentSchema);

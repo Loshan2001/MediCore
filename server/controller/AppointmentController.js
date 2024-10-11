@@ -1,6 +1,6 @@
 const Appointment = require("../models/Appointment");
 const User = require("../models/User");
-
+const Hospital = require("../models/Hospital")
 
 exports.createAppointment = async (req, res) => {
   try {
@@ -9,7 +9,7 @@ exports.createAppointment = async (req, res) => {
     let user = {};
 
     try {
-      console.log(req.body.doctorName);
+      // console.log(req.body.doctorName);
       user = await User.findOne({ fullName: doctorName ,userType: 'doctor'}); // Find the user by the doctorName field
       
       console.log(user._id);
@@ -17,6 +17,11 @@ exports.createAppointment = async (req, res) => {
         return res.status(404).json({ message: "Doctor not found" });
       }
 
+      hospital = await Hospital.findOne({name : hospitalName})
+      if (!hospital) {
+        return res.status(404).json({ message: "Hospital not found" });
+      }
+      // console.log(hospital._id)
     
     } catch (error) {
       console.error("Error finding the doctor:", error);
@@ -33,6 +38,7 @@ exports.createAppointment = async (req, res) => {
       appointmentDate,
       maxPatients,
       user: user._id, // Use the correct user ID here
+      hospital : hospital._id
     });
 
     const savedAppointment = await newAppointment.save();

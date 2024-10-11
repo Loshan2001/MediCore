@@ -1,4 +1,5 @@
 const Hospital = require('../models/Hospital'); // Assuming you have a Hospital model
+const Appointment = require('../models/Appointment');
 
 
 exports.assignHospital = async (req, res) => {
@@ -64,3 +65,30 @@ exports.getAllHospitals = async (req, res) => {
     console.log(error);
   }
 };
+
+exports.searchHospital = async (req, res) => {
+  try {
+    const { hospitalName } = req.query; // Get the hospitalName from the query parameters
+
+    let query = {};
+
+    // If hospitalName is provided, use regex for partial matching (case insensitive)
+    if (hospitalName) {
+      query.hospitalName = { $regex: hospitalName, $options: 'i' }; // 'i' for case-insensitive match
+    }
+
+    // Find appointments matching the query and populate the associated user (doctor) details
+    const appointments = await Appointment.find(query).populate('user').populate('hospital'); 
+
+    if (!appointments.length) {
+      return res.status(404).json({ error: 'No appointments found for the provided hospital name' });
+    }
+
+    // Return matching appointments
+    res.status(200).json(appointments);
+  } catch (error) {
+    console.error(error); // Log the error for debugging
+    res.status(500).json({ error: 'Error finding appointments by hospital name' });
+  }
+};
+
