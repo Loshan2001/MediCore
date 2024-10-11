@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect } from 'react';
 import { ScrollView, StyleSheet, SafeAreaView, Text, ActivityIndicator, Alert, View, TextInput } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -8,7 +6,7 @@ import DoctorCard from '../../components/DoctorCard';
 const DoctorSearchResultsScreen = ({ navigation, route }) => {
   const { doctorName } = route.params;
   const [doctorData, setDoctorData] = useState([]); 
-  const [filteredDoctorData, setFilteredDoctorData] = useState([]);
+  const [filteredDoctorData, setFilteredDoctorData] = useState([]); // Start with an empty array
   const [loading, setLoading] = useState(true);
   const [searchDate, setSearchDate] = useState('');
 
@@ -66,28 +64,34 @@ const DoctorSearchResultsScreen = ({ navigation, route }) => {
           value={searchDate}
           onChangeText={handleSearch}
         />
-        <ScrollView contentContainerStyle={styles.scrollContent}>
-          {filteredDoctorData.map((doctor, index) => {
-            const { doctorName: name, user = {}, hospitalName, appointmentDate, appointmentTimeSlot } = doctor;
-            const { specialization = 'N/A' } = user;
-            const formattedDate = new Date(appointmentDate).toLocaleDateString();
-            const timeSlot = appointmentTimeSlot || 'N/A';
+        {filteredDoctorData.length > 0 ? ( // Check if filtered data exists
+          <ScrollView contentContainerStyle={styles.scrollContent}>
+            {filteredDoctorData.map((doctor, index) => {
+              const { doctorName: name, user = {}, hospitalName, appointmentDate, appointmentTimeSlot } = doctor;
+              const { specialization = 'N/A' } = user;
+              const formattedDate = new Date(appointmentDate).toLocaleDateString();
+              const timeSlot = appointmentTimeSlot || 'N/A';
 
-            return (
-              <DoctorCard
-                key={index}
-                doctor={{
-                  name,
-                  specialization,
-                  hospital: hospitalName,
-                  appointmentDate: formattedDate,
-                  timeSlot,
-                }}
-                onPress={() => navigation.navigate('DoctorDetailScreen', { doctor })}
-              />
-            );
-          })}
-        </ScrollView>
+              return (
+                <DoctorCard
+                  key={index}
+                  doctor={{
+                    name,
+                    specialization,
+                    hospital: hospitalName,
+                    appointmentDate: formattedDate,
+                    timeSlot,
+                  }}
+                  onPress={() => navigation.navigate('DoctorDetailScreen', { doctor })}
+                />
+              );
+            })}
+          </ScrollView>
+        ) : (
+          <View style={styles.centered}>
+            <Text style={styles.errorText}>No appointments available.</Text>
+          </View>
+        )}
       </LinearGradient>
     </SafeAreaView>
   );
