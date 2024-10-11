@@ -26,6 +26,10 @@ const HospitalDetailScreen = ({ route }) => {
           `http://localhost:5001/api/hospital/search?hospitalName=${hospitalName}`
         );
         const data = await response.json();
+        
+        // Ensure the data is what you expect
+        console.log('API Response:', data); // Log the response for debugging
+
         setHospitals(data); // Adjust based on the actual structure of your API response
       } catch (err) {
         setError(err.message);
@@ -54,23 +58,21 @@ const HospitalDetailScreen = ({ route }) => {
       <View style={styles.cityContainer}>
         <Text style={styles.cityText}>{item.hospital.city}</Text>
         <TouchableOpacity
-  style={styles.viewButton}
-  onPress={() =>
-    navigation.navigate("HospitalSearchResults", {
-      hospital: {
-        name: item.hospital.name,
-        location: item.hospital.address, // Assuming this is what you want for location
-        phone: item.hospital.number,
-        city: item.hospital.city,
-        
-      },
-      doctorName: item.doctorName, // Include doctor name here
-    })
-  }
->
-  <Text style={styles.viewButtonText}>View</Text>
-</TouchableOpacity>
-
+          style={styles.viewButton}
+          onPress={() =>
+            navigation.navigate("HospitalSearchResults", {
+              hospital: {
+                name: item.hospital.name,
+                location: item.hospital.address,
+                phone: item.hospital.number,
+                city: item.hospital.city,
+              },
+              doctorName: item.doctorName,
+            })
+          }
+        >
+          <Text style={styles.viewButtonText}>View</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -92,6 +94,14 @@ const HospitalDetailScreen = ({ route }) => {
     );
   }
 
+  if (hospitals.length === 0) {
+    return (
+      <View style={styles.errorContainer}>
+        <Text>No more appointments</Text> {/* Display message when no hospitals found */}
+      </View>
+    );
+  }
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <LinearGradient
@@ -99,12 +109,6 @@ const HospitalDetailScreen = ({ route }) => {
         style={styles.gradientBackground}
       >
         <Text style={styles.header}>Search Results (Hospital)</Text>
-        {/* <FlatList
-          data={hospitals}
-          renderItem={renderItem}
-          keyExtractor={item => item.hospital._id}
-          contentContainerStyle={styles.listContent}
-        /> */}
         <FlatList
           data={hospitals}
           renderItem={renderItem}
