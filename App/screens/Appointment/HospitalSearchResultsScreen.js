@@ -1,28 +1,32 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, SafeAreaView } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient'; // Gradient background support
+import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 
 const HospitalSearchResultsScreen = ({ route }) => {
-  const { hospital } = route.params;
+  const { hospital, doctorName } = route.params; // Get hospital and doctorName from route params
   const navigation = useNavigation();
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <LinearGradient
-        colors={['#005596', '#ffffff']} // Gradient background from blue to white
+        colors={['#005596', '#ffffff']}
         style={styles.container}
       >
         {/* Hospital Image */}
         <View style={styles.imageContainer}>
-          <Image source={{ uri: 'https://png.pngtree.com/png-vector/20240119/ourmid/pngtree-city-hospital-elements-png-image_11420665.png' }} style={styles.hospitalImage} />
+          <Image 
+            source={{ uri: "https://png.pngtree.com/png-vector/20240119/ourmid/pngtree-city-hospital-elements-png-image_11420665.png" }} 
+            style={styles.hospitalImage} 
+          />
         </View>
 
-        {/* Hospital Info */}
+     
         <Text style={styles.hospitalName}>{hospital.name}</Text>
         <Text style={styles.hospitalLocation}>📍 {hospital.location}</Text>
         <Text style={styles.hospitalPhone}>📞 {hospital.phone}</Text>
         <Text style={styles.hospitalCity}>City: {hospital.city}</Text>
+        <Text style={styles.doctorName}>👨‍⚕️ Doctor: {doctorName}</Text> 
 
         {/* "Book" Button */}
         <TouchableOpacity
@@ -101,6 +105,12 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  doctorName: {
+    fontSize: 18,
+    color: '#555',
+    textAlign: 'center',
+    marginTop: 10,
   },
 });
 
