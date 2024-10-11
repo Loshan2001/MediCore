@@ -10,6 +10,15 @@ const DoctorDetailScreen = ({ route, navigation }) => {
     navigation.navigate('AppointmentConfirmation', { doctor });
   };
 
+  // Format the date (assuming appointmentDate is a string or Date object)
+  const formatDate = (date) => {
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = (`0${d.getMonth() + 1}`).slice(-2); // Adding leading zero if needed
+    const day = (`0${d.getDate()}`).slice(-2); // Adding leading zero if needed
+    return `${year}-${month}-${day}`;
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <LinearGradient
@@ -21,7 +30,7 @@ const DoctorDetailScreen = ({ route, navigation }) => {
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <Icon name="arrow-back" size={24} color="#fff" />
           </TouchableOpacity>
-          <Text style={styles.title}>{doctor.name}</Text>
+          <Text style={styles.title}>{doctor.doctorName}</Text>
           <Icon name="notifications-outline" size={24} color="#fff" />
         </View>
 
@@ -29,23 +38,23 @@ const DoctorDetailScreen = ({ route, navigation }) => {
         <Image source={{ uri: 'https://www.freeiconspng.com/uploads/doctors-transparent-icon-10.png' }} style={styles.image} />
 
         {/* Doctor's details */}
-        <Text style={styles.name}>{doctor.name}</Text>
+        <Text style={styles.name}>{doctor.doctorName}</Text>
         <Text style={styles.specialization}>{doctor.specialization}</Text>
-        <Text style={styles.activeAppointments}>Active Appointments: {doctor.activeAppointments}</Text>
+        <Text style={styles.activeAppointments}>Maximum Appointments: {doctor.maxPatients}</Text>
 
         {/* Appointment Details */}
         <View style={styles.infoBox}>
           <View style={styles.infoRow}>
             <Icon name="calendar-outline" size={18} color="#333" />
-            <Text style={styles.infoText}>20 August 2024</Text>
+            <Text style={styles.infoText}>{formatDate(doctor.appointmentDate)}</Text>
           </View>
           <View style={styles.infoRow}>
             <Icon name="location-outline" size={18} color="#333" />
-            <Text style={styles.infoText}>Hemas Wattala</Text>
+            <Text style={styles.infoText}>{doctor.hospitalName}</Text>
           </View>
           <View style={styles.infoRow}>
             <Icon name="time-outline" size={18} color="#333" />
-            <Text style={styles.infoText}>2.00pm - 4.00pm</Text>
+            <Text style={styles.infoText}>{doctor.appointmentTimeSlot}</Text>
           </View>
         </View>
 

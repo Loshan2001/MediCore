@@ -1,4 +1,4 @@
-// src/components/DoctorCard.js
+
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 
@@ -6,15 +6,15 @@ const DoctorCard = ({ doctor, onPress }) => {
   return (
     <View style={styles.card}>
       <View style={styles.imageContainer}>
-        <Image source={{ uri: doctor.image }} style={styles.image} />
+        <Image source={{ uri: "https://www.buckeyehealthandresearch.com/wp-content/uploads/2023/03/schedule-appointment-button-2.png"}} style={styles.image} />
       </View>
       <View style={styles.details}>
         <Text style={styles.name}>{doctor.name}</Text>
         <Text style={styles.hospital}>{doctor.hospital}</Text>
-        <Text style={styles.time}>2:00 pm - 5:00 pm</Text>
+        <Text style={styles.time}>{doctor.timeSlot}</Text>
       </View>
       <View style={styles.bookContainer}>
-        <Text style={styles.date}>21 AUG</Text>
+        <Text style={styles.date}>{doctor.appointmentDate}</Text>
         <TouchableOpacity style={styles.bookButton} onPress={onPress}>
           <Text style={styles.bookText}>+ Book</Text>
         </TouchableOpacity>
@@ -30,8 +30,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 10,
     marginBottom: 15,
-    elevation: 2, // For Android shadow
-    shadowColor: '#000', // For iOS shadow
+    elevation: 2,
+    shadowColor: '#000',
     shadowOpacity: 0.2,
     shadowRadius: 4,
     shadowOffset: { width: 0, height: 2 },
@@ -68,8 +68,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   date: {
-    fontSize: 12,
-    color: '#888',
+    fontSize: 9,
+    color: '#333',
     marginBottom: 10,
   },
   bookButton: {
