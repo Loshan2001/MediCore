@@ -28,7 +28,7 @@ const HospitalDetailScreen = ({ route }) => {
         const data = await response.json();
         
         // Ensure the data is what you expect
-        console.log('API Response:', data); // Log the response for debugging
+        // console.log('API Response:', data); // Log the response for debugging
 
         setHospitals(data); // Adjust based on the actual structure of your API response
       } catch (err) {
@@ -62,12 +62,16 @@ const HospitalDetailScreen = ({ route }) => {
           onPress={() =>
             navigation.navigate("HospitalSearchResults", {
               hospital: {
+                id : item.hospital._id,
                 name: item.hospital.name,
                 location: item.hospital.address,
                 phone: item.hospital.number,
                 city: item.hospital.city,
+                
               },
               doctorName: item.doctorName,
+              userId : item.user._id,
+              appointment_id : item._id
             })
           }
         >
