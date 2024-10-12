@@ -1,15 +1,41 @@
-import React from 'react';
+import React, { useEffect, useState , useContext} from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, SafeAreaView, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { LinearGradient } from 'expo-linear-gradient';  // Gradient background
-
+import { LinearGradient } from 'expo-linear-gradient';
+import { AuthContext } from '../../context/AuthContext';
 const { width, height } = Dimensions.get('window');
 
 const HomeScreen = ({ navigation }) => {
+  const [doctorData, setDoctorData] = useState(null);
+  const { user } = useContext(AuthContext); 
+  console.log(user.id)
+  useEffect(() => {
+    // Fetch doctor data from API
+    const fetchDoctorData = async () => {
+      try {
+        const response = await fetch(`http://localhost:5001/api/doctor/${user.id}`); // API call using the doctor's ID
+        const result = await response.json();
+        setDoctorData(result); // Store the response in state
+      } catch (error) {
+        console.error('Error fetching doctor data:', error);
+      }
+    };
+
+    fetchDoctorData();
+  }, []);
+
+  if (!doctorData) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <Text>Loading...</Text>
+      </SafeAreaView>
+    ); // Show loading state while fetching data
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <LinearGradient
-        colors={['#005596', '#ffff']}  // Gradient background for whole screen
+        colors={['#005596', '#ffff']}
         style={styles.content}
       >
         {/* Header Section */}
@@ -19,7 +45,7 @@ const HomeScreen = ({ navigation }) => {
 
         {/* Enlarged Profile Card */}
         <View style={styles.profileCard}>
-          <Text style={styles.welcomeText}>Welcome Staff</Text>
+          <Text style={styles.welcomeText}>Welcome {doctorData.fullName}</Text>
           <View style={styles.profileContainer}>
             <Image
               style={styles.profileImage}
@@ -28,10 +54,10 @@ const HomeScreen = ({ navigation }) => {
               }}
             />
             <View style={styles.profileInfo}>
-              <Text style={styles.title}>Health Care Manager</Text>
-              <Text style={styles.infoText}>Name: T.C. Herath</Text>
-              <Text style={styles.infoText}>Employee ID: 20120098H</Text>
-              <Text style={styles.infoText}>Joined Date: 2012-06-21</Text>
+              <Text style={styles.title}>{doctorData.specialization}</Text>
+              <Text style={styles.infoText}>Name: {doctorData.fullName}</Text>
+              <Text style={styles.infoText}>Phone: {doctorData.phoneNo}</Text>
+              <Text style={styles.infoText}>Email: {doctorData.email}</Text>
               <Text style={styles.infoText}>Status: Active</Text>
             </View>
           </View>
@@ -62,6 +88,7 @@ const HomeScreen = ({ navigation }) => {
     </SafeAreaView>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
