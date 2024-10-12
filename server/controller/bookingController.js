@@ -38,9 +38,9 @@ exports.createBooking = async (req, res) => {
 exports.getBookings = async (req, res) => {
   try {
     const bookings = await Booking.find()
-      .populate("userId") // Populating user details
-      .populate("doctorId") // Populating doctor details
-      .populate("appointmentId"); // Populating appointment details
+      .populate("userId") 
+      .populate("doctorId") 
+      .populate("appointmentId"); 
 
     res.status(200).json(bookings);
   } catch (error) {
@@ -69,5 +69,26 @@ exports.deleteBooking = async (req, res) => {
     res.status(200).json({ message: "Booking deleted" });
   } catch (error) {
     res.status(500).json({ message: "Error deleting booking", error });
+  }
+};
+
+
+exports.getPastBookingsByUserId = async (req, res) => {
+  try {
+    const { id } = req.params;
+ 
+    const today = new Date();
+    
+    const pastBookings = await Booking.find({ 
+      doctorId : id, 
+      date: { $lt: today }  
+    })
+    .populate("userId")       
+    .populate("doctorId")     
+    .populate("appointmentId"); 
+
+    res.status(200).json(pastBookings);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching past bookings", error });
   }
 };

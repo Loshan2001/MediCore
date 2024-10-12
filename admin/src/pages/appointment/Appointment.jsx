@@ -246,6 +246,7 @@ const AssignAppointmentModal = ({ isOpen, onClose, onAssign }) => {
             name="appointmentTimeSlot"
             value={formData.appointmentTimeSlot}
             onChange={handleChange}
+            placeholder="01PM-02PM"
           />
         </div>
         <div className="mb-4">

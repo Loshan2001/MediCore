@@ -125,8 +125,8 @@ import axios from 'axios';
 const HospitalSearchResultsScreen = ({ route }) => {
   const { hospital, doctorName, appointment_id , userId } = route.params; // Get hospital, doctorName, and doctorId from route params
   const navigation = useNavigation();
-  const { user } = useContext(AuthContext); // Get the logged-in user context
-  console.log("lkjk hh "+hospital.location)
+  const { user } = useContext(AuthContext); 
+  // console.log("lkjk hh "+hospital.location)
  
   const handleBooking = async () => {
     try {

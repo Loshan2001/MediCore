@@ -54,7 +54,7 @@ exports.getAllDoctors = async (req, res) => {
 exports.getDoctorById = async (req, res) => {
   try {
     const doctorId = req.params.id; 
-
+    console.log(doctorId)
     const doctor = await Doctor.findOne({ _id: doctorId, userType: 'doctor' });
 
     if (!doctor) {
