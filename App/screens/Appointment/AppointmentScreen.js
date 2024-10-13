@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Alert, Activity
 import { Ionicons } from '@expo/vector-icons'; 
 import { LinearGradient } from 'expo-linear-gradient'; 
 import { Picker } from '@react-native-picker/picker'; 
-
+import config from '../../config/config';
 const AppointmentScreen = ({ navigation }) => {
   const [searchType, setSearchType] = useState('doctor'); 
   const [doctorName, setDoctorName] = useState('');
@@ -18,7 +18,7 @@ const AppointmentScreen = ({ navigation }) => {
     const fetchDoctors = async () => {
       setLoadingDoctors(true);
       try {
-        const response = await fetch('http://localhost:5001/api/doctor/getAll');
+        const response = await fetch(`${config.baseURL}/api/doctor/getAll`);
         const data = await response.json();
         const doctorList = data.filter(doc => doc.userType === 'doctor'); 
         setDoctors(doctorList);
@@ -33,7 +33,7 @@ const AppointmentScreen = ({ navigation }) => {
     const fetchHospitals = async () => {
       setLoadingHospitals(true);
       try {
-        const response = await fetch('http://localhost:5001/api/hospital/getAll');
+        const response = await fetch(`${config.baseURL}/api/hospital/getAll`);
         const data = await response.json();
         setHospitals(data); 
       } catch (error) {

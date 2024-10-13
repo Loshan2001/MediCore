@@ -121,7 +121,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import { AuthContext } from '../../context/AuthContext';
 import axios from 'axios';
-
+import config from '../../config/config';
 const HospitalSearchResultsScreen = ({ route }) => {
   const { hospital, doctorName, appointment_id , userId } = route.params; // Get hospital, doctorName, and doctorId from route params
   const navigation = useNavigation();
@@ -131,7 +131,7 @@ const HospitalSearchResultsScreen = ({ route }) => {
   const handleBooking = async () => {
     try {
       // Make the POST request to create the booking
-      const response = await axios.post('http://localhost:5001/api/booking/create', {
+      const response = await axios.post(`${config.baseURL}/api/booking/create`, {
         userId: user.id,          
         hospitalId: hospital.id,
         doctorName:doctorName,  

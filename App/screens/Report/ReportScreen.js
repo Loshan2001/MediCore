@@ -3,6 +3,7 @@ import { View, Text, Image, StyleSheet, TouchableOpacity, SafeAreaView, Dimensio
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { AuthContext } from '../../context/AuthContext';
+import config from '../../config/config';
 const { width, height } = Dimensions.get('window');
 
 const HomeScreen = ({ navigation }) => {
@@ -13,7 +14,7 @@ const HomeScreen = ({ navigation }) => {
     // Fetch doctor data from API
     const fetchDoctorData = async () => {
       try {
-        const response = await fetch(`http://localhost:5001/api/doctor/${user.id}`); // API call using the doctor's ID
+        const response = await fetch(`${config.baseURL}/api/doctor/${user.id}`); // API call using the doctor's ID
         const result = await response.json();
         setDoctorData(result); // Store the response in state
       } catch (error) {

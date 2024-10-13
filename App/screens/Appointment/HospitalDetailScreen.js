@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
-
+import config from '../../config/config';
 const HospitalDetailScreen = ({ route }) => {
   const navigation = useNavigation();
   const { hospitalName } = route.params;
@@ -23,7 +23,7 @@ const HospitalDetailScreen = ({ route }) => {
     const fetchHospitals = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5001/api/hospital/search?hospitalName=${hospitalName}`
+          `${config.baseURL}/api/hospital/search?hospitalName=${hospitalName}`
         );
         const data = await response.json();
         

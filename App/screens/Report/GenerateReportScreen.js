@@ -2,6 +2,7 @@ import React, { useState, useEffect ,useContext} from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, SafeAreaView, ActivityIndicator } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { AuthContext } from '../../context/AuthContext';
+import config from '../../config/config';
 const ITEMS_PER_PAGE = 3; // Number of items per page
 
 const GenerateReportScreen = ({ navigation }) => {
@@ -15,7 +16,7 @@ const GenerateReportScreen = ({ navigation }) => {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const response = await fetch(`http://localhost:5001/api/booking/past/${user.id}`);
+        const response = await fetch(`${config.baseURL}/api/booking/past/${user.id}`);
         const data = await response.json();
         setBookings(data);
         setLoading(false);
