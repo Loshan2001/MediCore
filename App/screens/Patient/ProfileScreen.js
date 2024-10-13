@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { AuthContext } from '../../context/AuthContext'; // Import AuthContext
 import axios from 'axios'; // Import axios for API call
-
+import config from '../../config/config';
 const ProfileScreen = ({ navigation }) => {
   const { user } = useContext(AuthContext); // Access user from AuthContext
   const [profile, setProfile] = useState(null);
@@ -14,7 +14,7 @@ const ProfileScreen = ({ navigation }) => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.get(`http://localhost:5001/api/user/profile/${user.id}`);
+        const response = await axios.get(`${config.baseURL}/api/user/profile/${user.id}`);
         setProfile(response.data);
         setLoading(false);
       } catch (error) {

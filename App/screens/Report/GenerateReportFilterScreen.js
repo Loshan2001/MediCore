@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, FlatList, TouchableOpacity, TextInput, SafeAreaView, StyleSheet, ActivityIndicator } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { AuthContext } from '../../context/AuthContext';
-
+import config from '../../config/config';
 const GenerateReportFilterScreen = ({ navigation }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchText, setSearchText] = useState('');
@@ -16,7 +16,7 @@ const GenerateReportFilterScreen = ({ navigation }) => {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const response = await fetch(`http://localhost:5001/api/booking/past/${user.id}`);
+        const response = await fetch(`${config.baseURL}/api/booking/past/${user.id}`);
         const data = await response.json();
         setBookings(data);
       } catch (error) {

@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, SafeAreaVie
 import { LinearGradient } from 'expo-linear-gradient';
 import { AuthContext } from '../../context/AuthContext'; // Importing AuthContext for user authentication context
 import axios from 'axios'; // Import Axios
-
+import config from '../../config/config';
 const UpdateAccountScreen = () => {
   const { user } = useContext(AuthContext); // Getting the authenticated user info
   const [fullName, setFullName] = useState('');
@@ -16,7 +16,7 @@ const UpdateAccountScreen = () => {
     // Fetch user data from backend API
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5001/api/user/profile/${user.id}`);
+        const response = await axios.get(`${config.baseURL}/api/user/profile/${user.id}`);
         const data = response.data; // Access data directly with Axios
 
         setFullName(data.fullName);
@@ -34,7 +34,7 @@ const UpdateAccountScreen = () => {
 
   const handleUpdate = async () => {
     try {
-      const response = await axios.put(`http://localhost:5001/api/user/update/${user.id}`, {
+      const response = await axios.put(`${config.baseURL}/api/user/update/${user.id}`, {
         fullName,
         email,
         address,

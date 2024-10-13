@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { LinearGradient } from 'expo-linear-gradient';
 import axios from 'axios';
 import Logo from '../../assets/hospitallogo.webp';
-
+import config from '../../config/config';
 const SignUpScreen = ({ navigation }) => {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
@@ -23,7 +23,7 @@ const SignUpScreen = ({ navigation }) => {
     }
   
     try {
-      const response = await axios.post('http://localhost:5001/api/user/signup', {
+      const response = await axios.post(`${config.baseURL}/api/user/signup`, {
         fullName,
         email: email.toLowerCase(), // Ensure email is lowercase
         password,

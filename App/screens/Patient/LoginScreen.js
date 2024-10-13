@@ -5,7 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import axios from 'axios';
 import { AuthContext } from '../../context/AuthContext';
 import Logo from '../../assets/hospitallogo.webp';
-
+import config from '../../config/config';
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -19,7 +19,7 @@ const LoginScreen = ({ navigation }) => {
     }
 
     try {
-      const response = await axios.post('http://localhost:5001/api/user/login', {
+      const response = await axios.post(`${config.baseURL}/api/user/login`, {
         email,
         password,
       });

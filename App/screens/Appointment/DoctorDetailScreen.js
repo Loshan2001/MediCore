@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { AuthContext } from '../../context/AuthContext';
 import axios from 'axios';  // Import axios
-
+import config from '../../config/config';
 const DoctorDetailScreen = ({ route, navigation }) => {
   const { doctor } = route.params;
   const { user } = useContext(AuthContext); 
@@ -18,7 +18,7 @@ const DoctorDetailScreen = ({ route, navigation }) => {
   const confirmAppointment = async () => {
     if (user) {
       try {
-        const response = await axios.post('http://localhost:5001/api/booking/create', {
+        const response = await axios.post(`${config.baseURL}/api/booking/create`, {
           userId: user.id,
           doctorId: doctor.user._id, 
           appointmentId: doctor._id, 

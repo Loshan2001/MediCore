@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ScrollView, StyleSheet, SafeAreaView, Text, ActivityIndicator, Alert, View, TextInput } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import DoctorCard from '../../components/DoctorCard';
-
+import config from '../../config/config';
 const DoctorSearchResultsScreen = ({ navigation, route }) => {
   const { doctorName } = route.params;
   const [doctorData, setDoctorData] = useState([]); 
@@ -13,7 +13,7 @@ const DoctorSearchResultsScreen = ({ navigation, route }) => {
   useEffect(() => {
     const fetchDoctorDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:5001/api/doctor/search?doctorName=${doctorName}`);
+        const response = await fetch(`${config.baseURL}/api/doctor/search?doctorName=${doctorName}`);
         const data = await response.json();
         setDoctorData(data);
         setFilteredDoctorData(data);
