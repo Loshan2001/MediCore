@@ -126,6 +126,15 @@ const userAuthController = {
       res.status(500).json({ message: 'Error fetching users', error });
     }
   },
+  getUser : async (req, res) => {
+    try {
+      const id = req.params.id; 
+      const users = await User.findById({_id : id})
+      res.status(200).json(users);
+    } catch (error) {
+      res.status(500).json({ message: 'Error fetching users', error });
+    }
+  },
 
 
 };
