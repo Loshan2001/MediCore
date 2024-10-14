@@ -1,17 +1,61 @@
-import React from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, SafeAreaView } from 'react-native';
+import React, { useEffect, useState, useContext } from 'react';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, SafeAreaView, ActivityIndicator } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons'; 
 import { LinearGradient } from 'expo-linear-gradient';
-
-const appointments = [
-  { id: '1', doctor: 'Dr. Aneesha De Silva', date: '21 AUG', hospital: 'Hemas Hospital', time: '2:00pm - 5:00pm' },
-  { id: '2', doctor: 'Dr. Nuran Senanayake', date: '14 JUL', hospital: 'Lanka Hospital', time: '12:00pm - 3:00pm' },
-  { id: '3', doctor: 'Dr. Aneesha De Silva', date: '21 JUNE', hospital: 'Hemas Hospital', time: '10:00am - 12:00pm' },
-  { id: '4', doctor: 'Dr. Nuran Senanayake', date: '04 APRIL', hospital: 'Lanka Hospital', time: '2:00pm - 5:00pm' },
-  { id: '5', doctor: 'Dr. Aneesha De Silva', date: '08 MAR', hospital: 'Hemas Hospital', time: '3:00pm - 5:30pm' },
-];
+import axios from 'axios';
+import {AuthContext} from '../../context/AuthContext'; // Assuming you have an AuthContext
+import config from '../../config/config';
 
 const AppointmentHistoryScreen = () => {
+  const [appointments, setAppointments] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { user } = useContext(AuthContext); // Get user data from AuthContext
+
+
+useEffect(() => {
+  const fetchAppointments = async () => {
+    try {
+      let response;
+
+      // Fetch user details and extract userType from the response
+      const userRes = await axios.get(`${config.baseURL}/api/user/${user.id}`);
+      const userType = userRes.data.userType;
+
+
+      
+
+
+      // Make the appropriate API call based on userType
+      if (userType === 'doctor') {
+        response = await axios.get(`${config.baseURL}/api/booking/past/${user.id}`);
+      } else if (userType === 'patient') {
+        response = await axios.get(`${config.baseURL}/api/booking/history/${user.id}`);
+      }
+
+      if (response && response.data) {
+        const appointmentData = response.data.map(item => ({
+          id: item._id,
+          doctor: item.doctorId.fullName,
+          date: new Date(item.appointmentId.appointmentDate).toLocaleDateString('en-US', {
+            day: 'numeric', month: 'short', year: 'numeric'
+          }),
+          hospital: item.appointmentId.hospitalName,
+          time: item.appointmentId.appointmentTimeSlot,
+        }));
+        setAppointments(appointmentData);
+      } else {
+        console.error('No data returned from API');
+      }
+    } catch (error) {
+      console.error('Error fetching appointments:', error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchAppointments();
+}, [user.id]);
+
   const renderAppointment = ({ item }) => (
     <View style={styles.card}>
       <View style={styles.cardContent}>
@@ -39,12 +83,16 @@ const AppointmentHistoryScreen = () => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <LinearGradient colors={['#005596', '#ffffff']} style={styles.container}>
-        <FlatList
-          data={appointments}
-          keyExtractor={(item) => item.id}
-          renderItem={renderAppointment}
-          showsVerticalScrollIndicator={false} // Hides vertical scroll bar
-        />
+        {loading ? (
+          <ActivityIndicator size="large" color="#0000ff" />
+        ) : (
+          <FlatList
+            data={appointments}
+            keyExtractor={(item) => item.id}
+            renderItem={renderAppointment}
+            showsVerticalScrollIndicator={false} // Hides vertical scroll bar
+          />
+        )}
       </LinearGradient>
     </SafeAreaView>
   );
