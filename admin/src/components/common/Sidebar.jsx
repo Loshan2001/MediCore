@@ -9,8 +9,8 @@ const SIDEBAR_ITEMS = [
 	{ name: "Hospital", icon: Building, color: "#EC4899", href: "/hospital" },
 	{ name: "Appointment", icon: Calendar, color: "#10B981", href: "/appointment" },
 	{ name: "Report", icon: FileText, color: "#F59E0B", href: "/report" },
-	{ name: "User", icon: UsersIcon, color: "#F59E0B", href: "/user" },,
-	{ name: "Settings", icon: Settings, color: "#6EE7B7", href: "/settings"},
+	{ name: "User", icon: UsersIcon, color: "#F59E0B", href: "/user" },
+	// { name: "Settings", icon: Settings, color: "#6EE7B7", href: "/settings"},
 ]; 
 const Sidebar = () => {
 	const [isSidebarOpen, setIsSidebarOpen] = useState(true);
