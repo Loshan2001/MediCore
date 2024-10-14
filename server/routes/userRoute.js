@@ -7,4 +7,5 @@ router.post('/login', userAuthController.login);
 router.get('/profile/:userId', userAuthController.getProfile);
 router.put('/update/:userId', userAuthController.updateUser); 
 router.get('/all', userAuthController.getAllUsers);
+router.get('/:id', userAuthController.getUser); 
 module.exports = router; 

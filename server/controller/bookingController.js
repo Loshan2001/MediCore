@@ -92,3 +92,26 @@ exports.getPastBookingsByUserId = async (req, res) => {
     res.status(500).json({ message: "Error fetching past bookings", error });
   }
 };
+
+
+
+exports.getAppointmentHistoryByUserId = async (req, res) => {
+  try {
+    const { id } = req.params;
+ 
+    const today = new Date();
+    
+    const pastBookings = await Booking.find({ 
+      userId : id, 
+      date: { $lt: today }  
+    })
+    .populate("userId")       
+    .populate("doctorId")     
+    .populate("appointmentId"); 
+
+    res.status(200).json(pastBookings);
+
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching past bookings", error });
+  }
+};

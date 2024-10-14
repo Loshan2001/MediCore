@@ -1,13 +1,11 @@
 import { Route, Routes } from "react-router-dom";
-
 import Sidebar from "./components/common/Sidebar";
-import Hospital from "./pages/hospital/Hospital";
 import UsersPage from "./pages/UsersPage";
 import SettingsPage from "./pages/SettingsPage";
 import DoctorPage from "./pages/DoctorPage";
 import HospitalPage from "./pages/HospitalPage";
-import Appointment from "./pages/appointment/Appointment";
 import AppointmentPage from "./pages/AppointmentPage";
+import ReportPage from "./pages/ReportPage";
 
 function App() {
 	return (
@@ -32,6 +30,7 @@ function App() {
 				<Route path='/settings' element={<SettingsPage />} /> 
 				<Route path='/hospital' element={<HospitalPage/>} />
 				<Route path='/appointment' element={<AppointmentPage />} />
+				<Route path='/report' element={<ReportPage />} />
 			</Routes>
 		</div>
 	);
