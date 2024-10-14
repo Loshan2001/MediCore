@@ -72,9 +72,9 @@ useEffect(() => {
         </View>
         <View style={styles.dateView}>
           <Text style={styles.dateText}>{item.date}</Text>
-          <TouchableOpacity style={styles.viewButton}>
+          {/* <TouchableOpacity style={styles.viewButton}>
             <Text style={styles.viewButtonText}>VIEW</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
     </View>
