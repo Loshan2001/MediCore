@@ -74,21 +74,19 @@ const userAuthController = {
     }
   },
 
-  getProfile : async (req, res) => {
+  getProfile: async (req, res) => {
     try {
       const { userId } = req.params;
-      
-      // Find user by ID
-      const user = await User.findById(userId).select('-password'); 
-      
+      const user = await User.findById(userId).select('-password');
+  
       if (!user) {
         return res.status(404).json({ msg: 'User not found' });
       }
-      
+  
       res.status(200).json(user);
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ msg: 'Server error' });
+      console.error('Profile Error:', error);
+      res.status(500).json({ msg: 'Server error '+error });
     }
   },
   updateUser : async (req, res) => {
@@ -117,15 +115,17 @@ const userAuthController = {
       res.status(500).json({ message: 'Error updating user', error });
     }
   },
-  getAllUsers : async (req, res) => {
+  getAllUsers: async (req, res) => {
     try {
-      // Fetch all users
+      // Fetch all users while excluding the password field.
       const users = await User.find().select('-password');
       res.status(200).json(users);
     } catch (error) {
+      console.error('Error fetching users:', error); // Log the error for debugging.
       res.status(500).json({ message: 'Error fetching users', error });
     }
   },
+  
   getUser : async (req, res) => {
     try {
       const id = req.params.id; 
