@@ -67,9 +67,9 @@ const MedicalHistoryScreen = () => {
             <Text style={styles.bpText}> {item.systolic}7/{item.diastolic} 30 mmHg</Text>
           </View>
         </View>
-        <TouchableOpacity style={styles.viewButton}>
+        {/* <TouchableOpacity style={styles.viewButton}>
           <Text style={styles.viewButtonText}>VIEW</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </View>
   );
